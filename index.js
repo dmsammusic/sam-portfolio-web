@@ -1,4 +1,4 @@
-document.querySelector('.menu-button').addEventListener('click', () => {
-	const nav = document.querySelector('nav');
-	nav.classList.toggle('hidden');
-});
+function toggleMenu() {
+	const menu = document.getElementById('mobile-menu');
+	menu.classList.toggle('hidden');
+}
