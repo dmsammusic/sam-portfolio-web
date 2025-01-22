@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Sam Portfolio</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet" />
+
+		<script
+			src="script.js"
+			defer></script>
+	</head>
+	<body>
+		<div class="w-full min-h-screen bg-white">
+			<header class="fixed top-0 w-full bg-white border-b z-10">
+				<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+					<h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
+					<nav class="hidden md:flex space-x-8">
+						<a
+							href="#about"
+							class="hover:text-gray-600"
+							>About</a
+						>
+						<a
+							href="#projects"
+							class="hover:text-gray-600"
+							>Projects</a
+						>
+						<a
+							href="#skills"
+							class="hover:text-gray-600"
+							>Skills</a
+						>
+						<a
+							href="#contact"
+							class="hover:text-gray-600"
+							>Contact</a
+						>
+					</nav>
+					<button class="menu-button md:hidden">☰</button>
+				</div>
+			</header>
+			<main class="pt-20">
+				<section class="container mx-auto px-6 py-20">
+					<div class="max-w-3xl">
+						<h2 class="text-5xl font-bold mb-6">Backend Developer & System Architect</h2>
+						<p class="text-xl text-gray-600 mb-8">
+							I create beautiful and functional web experiences with a focus on user interaction and responsive design.
+						</p>
+						<div class="flex space-x-4">
+							<a
+								href="#contact"
+								class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
+								>Get in touch</a
+							>
+							<a
+								href="#projects"
+								class="border border-black px-6 py-3 rounded-lg hover:bg-gray-50"
+								>View my work</a
+							>
+						</div>
+					</div>
+				</section>
+				<section
+					id="about"
+					class="bg-gray-50 py-20">
+					<div class="container mx-auto px-6">
+						<h3 class="text-3xl font-bold mb-8">About Me</h3>
+
+						<div class="max-w-2xl">
+							<p class="text-gray-600 mb-4">
+								With over 7 years of experience in Application development, I mostly Works in Refactor and Design the
+								apps to improve DX. My passion lies in turning complex problems into simple and scalable solutions.
+							</p>
+							<p class="text-gray-600">
+								When I'm not coding, you can find me exploring new technologies and get frequent update on node and
+								frameworks, or sharing my knowledge through technical meetings with people.
+							</p>
+						</div>
+					</div>
+				</section>
+				<section
+					id="projects"
+					class="py-20">
+					<div class="container mx-auto px-6">
+						<h3 class="text-3xl font-bold mb-8">Featured Projects</h3>
+						<div class="grid md:grid-cols-2 gap-8">
+							<div class="border rounded-lg overflow-hidden">
+								<div class="bg-gray-100 h-48"></div>
+								<div class="p-6">
+									<h4 class="text-xl font-bold mb-2">E-commerce Platform</h4>
+									<p class="text-gray-600 mb-4">
+										A full-featured online shopping platform built with React and Node.js
+									</p>
+									<div class="flex items-center space-x-2">
+										<a
+											href="#"
+											class="text-sm flex items-center hover:text-gray-600">
+											View Project
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="border rounded-lg overflow-hidden">
+								<div class="bg-gray-100 h-48"></div>
+								<div class="p-6">
+									<h4 class="text-xl font-bold mb-2">Auth System Server</h4>
+									<p class="text-gray-600 mb-4">A collaborative task management tool with real-time updates</p>
+									<div class="flex items-center space-x-2">
+										<a
+											href="#"
+											class="text-sm flex items-center hover:text-gray-600">
+											View Project
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section
+					id="skills"
+					class="bg-gray-50 py-20">
+					<div class="container mx-auto px-6">
+						<h3 class="text-3xl font-bold mb-8">Skills & Technologies</h3>
+						<div class="grid md:grid-cols-3 gap-6">
+							<div class="bg-white p-6 rounded-lg">
+								<h4 class="font-bold mb-4">Frontend <span class="text-xs">(basic)</span></h4>
+
+								<ul class="space-y-2 text-gray-600">
+									<li>HTML5</li>
+									<li>CSS</li>
+									<li>bootsrap</li>
+									<li>Angularjs</li>
+								</ul>
+							</div>
+							<div class="bg-white p-6 rounded-lg">
+								<h4 class="font-bold mb-4">Backend(proficient)</h4>
+								<ul class="space-y-2 text-gray-600">
+									<li>Node.js</li>
+									<li>Nestjs</li>
+									<li>Express</li>
+									<li>mongodb & Neo4j</li>
+									<li>REST APIs</li>
+								</ul>
+							</div>
+							<div class="bg-white p-6 rounded-lg">
+								<h4 class="font-bold mb-4">Tools</h4>
+								<ul class="space-y-2 text-gray-600">
+									<li>Git</li>
+									<li>Docker</li>
+									<li>AWS</li>
+									<li>Figma</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section
+					id="contact"
+					class="py-20">
+					<div class="container mx-auto px-6">
+						<h3 class="text-3xl font-bold mb-8">Get in Touch</h3>
+						<div class="max-w-xl">
+							<p class="text-gray-600 mb-6">
+								I'm always interested in hearing about new projects and opportunities. Feel free to reach out!
+							</p>
+							<div class="flex space-x-6">
+								<a
+									href="https://github.com/dmsammusic"
+									class="hover:text-gray-600"
+									target="_blank"
+									>GitHub</a
+								>
+								<a
+									href="https://linkedin.com/in/sam-solomon-raja"
+									class="hover:text-gray-600"
+									target="_blank"
+									>LinkedIn</a
+								>
+								<a
+									href="mailto:dmsammmusic@gmail.com"
+									class="hover:text-gray-600"
+									target="_blank"
+									>Email</a
+								>
+
+								<a
+									href="https://www.buymeacoffee.com/https://buymeacoffee.com/dmsammusicp"
+									class="hover:text-gray-600 block">
+									buymeacoffee :
+								</a>
+							</div>
+							<div class="py-6">
+								<a
+									href="https://buymeacoffee.com/dmsammusicp"
+									target="_blank">
+									<img
+										src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+										width="200px"
+										alt="https://buymeacoffee.com/dmsammusicp" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+			<footer class="border-t py-4">
+				<div class="container mx-auto px-6 text-center text-gray-600">
+					<p class="text-sm">© 2025 Sam M. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+		<script src="./index.js"></script>
+	</body>
+</html>
