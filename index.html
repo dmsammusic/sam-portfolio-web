@@ -10,9 +10,6 @@
 			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
 			rel="stylesheet" />
 
-		<script
-			src="script.js"
-			defer></script>
 	</head>
 	<body>
 		<div class="w-full min-h-screen bg-white">
@@ -236,6 +233,11 @@
 				</div>
 			</footer>
 		</div>
-		<script src="./index.js"></script>
+		<script>
+			function toggleMenu() {
+				const menu = document.getElementById('mobile-menu');
+				menu.classList.toggle('hidden');
+			}
+		</script>
 	</body>
 </html>
