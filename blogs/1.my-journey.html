@@ -9,191 +9,305 @@
 		<link
 			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
 			rel="stylesheet" />
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+			rel="stylesheet" />
 	</head>
-	<body class="bg-gray-50 text-gray-800 font-sans">
-		<!-- Navbar -->
-		<header class="bg-white shadow">
-			<div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-				<h1 class="text-2xl font-bold">My Blog</h1>
-				<nav>
-					<a
-						href="../index.html"
-						class="text-blue-500 hover:underline mr-4"
-						>Home</a
-					>
-					<a
-						href="../blog.html"
-						class="text-blue-500 hover:underline"
-						>Blog</a
-					>
-				</nav>
-			</div>
-		</header>
+	<body>
+		<div class="w-full min-h-screen bg-white">
+			<!-- Header -->
+			<header class="fixed top-0 w-full bg-white border-b z-10">
+				<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+					<h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
+					<!-- Navigation menu button for mobile -->
+					<button
+						class="menu-button md:hidden"
+						onclick="toggleMenu()"
+						aria-label="Toggle menu">
+						☰
+					</button>
+					<!-- Navigation list -->
+					<ul
+						id="mobile-menu"
+						class="hidden md:flex md:space-x-8 md:flex-row flex-col absolute md:relative md:top-auto md:right-auto md:bg-transparent top-16 right-0 bg-white w-full md:w-auto border md:border-0 rounded-lg md:rounded-none shadow md:shadow-none">
+						<li class="text-center md:text-left">
+							<a
+								href="../index.html"
+								class="block px-4 py-2 hover:text-gray-600"
+								>Home</a
+							>
+						</li>
+						<li class="text-center md:text-left">
+							<a
+								href="../blog.html"
+								class="block px-4 py-2 hover:text-gray-600"
+								>Blog</a
+							>
+						</li>
+						<li class="text-center md:text-left">
+							<a
+								href="../index.html#about"
+								class="block px-4 py-2 hover:text-gray-600"
+								>About</a
+							>
+						</li>
+						<li class="text-center md:text-left">
+							<a
+								href="../index.html#projects"
+								class="block px-4 py-2 hover:text-gray-600"
+								>Projects</a
+							>
+						</li>
+						<li class="text-center md:text-left">
+							<a
+								href="../index.html#skills"
+								class="block px-4 py-2 hover:text-gray-600"
+								>Skills</a
+							>
+						</li>
+						<li class="text-center md:text-left">
+							<a
+								href="../index.html#contact"
+								class="block px-4 py-2 hover:text-gray-600"
+								>Contact</a
+							>
+						</li>
+					</ul>
+				</div>
+			</header>
 
-		<!-- Main Content -->
-		<main class="max-w-4xl mx-auto p-4">
-			<article class="bg-white shadow-md rounded p-6 mt-6">
-				<h2 class="text-2xl font-bold mb-6">My Journey to Building a Personal Website</h2>
-				<p class="text-gray-700 mb-4">
-					As an engineer and a lifelong learner, I’ve always enjoyed solving problems and creating solutions. Recently,
-					I decided to build my personal website to share journals and thoughts about changes in life and technology.
-					Here’s how it all came together in two days during my free time.
-				</p>
+			<!-- Main Content -->
+			<main class="pt-20">
+				<section class="container mx-auto px-6 py-20">
+					<div>
+						<h1 class="text-4xl font-bold mb-12">My Journey to Building a Personal Website</h1>
+						<p class="text-xl text-gray-600 mb-8">
+							As an engineer and a lifelong learner, I’ve always enjoyed solving problems and creating solutions. Recently, I
+							decided to build my personal website to share journals and thoughts about changes in life and technology. Here’s
+							how it all came together in just two days during my free time.
+						</p>
 
-				<h4 class="text-xl font-semibold mb-4">Setting the Foundation</h4>
-				<p class="text-gray-700 mb-4">
-					First, I bought a domain from
-					<a
-						href="https://www.godaddy.com/"
-						class="text-blue-500 hover:underline"
-						>GoDaddy</a
-					>. That was simple, but I knew there was more work ahead. To make my site secure with HTTPS, I used
-					<a
-						href="https://www.cloudflare.com/"
-						class="text-blue-500 hover:underline"
-						>Cloudflare</a
-					>
-					for SSL and DNS setup. After some quick configuration, my domain was ready, and I could start building the
-					website.
-				</p>
+						<!-- Blog Content -->
+						<article class="prose lg:prose-xl">
+							<!-- Setting the Foundation -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-tools text-xl text-blue-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Setting the Foundation</h2>
+								</div>
+								<p class="text-gray-600 mb-4">
+									The first step was buying a domain. I chose
+									<a
+										href="https://www.godaddy.com/"
+										target="_blank"
+										class="text-blue-600 hover:underline"
+										>GoDaddy</a
+									>
+									for its simplicity and reliability. Once I had my domain, I needed to secure it with HTTPS. For this, I
+									turned to
+									<a
+										href="https://www.cloudflare.com/"
+										target="_blank"
+										class="text-blue-600 hover:underline"
+										>Cloudflare</a
+									>, which made SSL and DNS setup a breeze. With the foundation ready, I was all set to start building.
+								</p>
+							</div>
 
-				<h4 class="text-xl font-semibold mb-4">Designing the Website</h4>
-				<p class="text-gray-700 mb-4">
-					I wanted a space to post journals and blogs, so I decided to use AI-powered tools to speed up the process.
-				</p>
+							<!-- Designing the Website -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-palette text-2xl text-purple-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Designing the Website</h2>
+								</div>
+								<p class="text-gray-600 mb-4">
+									I wanted a space to post journals and blogs, so I decided to use AI-powered tools to speed up the design
+									process.
+								</p>
 
-				<h4 class="text-xl font-semibold mb-2">Choosing the Tools</h4>
-				<p class="text-gray-700 mb-4">
-					To start with the design, I used
-					<a
-						href="https://www.magicpatterns.com/"
-						class="text-blue-500 hover:underline"
-						>MagicPatterns</a
-					>, which gave me a basic design using <strong>Tailwind CSS</strong> and a <strong>React</strong> page. It
-					provided a good foundation, but I wanted the design to feel more personal.
-				</p>
+								<h3 class="text-xl font-bold mb-4">Choosing the Tools</h3>
+								<p class="text-gray-600 mb-4">
+									I started with
+									<a
+										href="https://www.magicpatterns.com/"
+										target="_blank"
+										class="text-blue-600 hover:underline"
+										>MagicPatterns</a
+									>, which provided a basic design using <strong>Tailwind CSS</strong> and a <strong>React</strong> page.
+									While it gave me a solid foundation, I wanted the design to feel more personal.
+								</p>
 
-				<h4 class="text-xl font-semibold mb-2">Customizing the Design</h4>
-				<p class="text-gray-700 mb-4">
-					With my basic UI skills and help from
-					<a
-						href="https://chatgpt.com/"
-						class="text-blue-500 hover:underline"
-						>ChatGPT</a
-					>, I adjusted the design to match my style. This combination helped me finish the page design quickly.
-				</p>
+								<h3 class="text-xl font-bold mb-4">Customizing the Design</h3>
+								<p class="text-gray-600 mb-4">
+									With my basic UI skills and help from
+									<a
+										href="https://chatgpt.com/"
+										target="_blank"
+										class="text-blue-600 hover:underline"
+										>ChatGPT</a
+									>, I tweaked the design to match my style. This combination of human creativity and AI assistance helped
+									me finalize the page design quickly.
+								</p>
+							</div>
 
-				<h4 class="text-xl font-semibold mb-4">Hosting the Website</h4>
-				<p class="text-gray-700 mb-4">
-					Once the design was ready, I needed a web server to host the site. At first, I thought about using
-					<strong>AWS S3</strong> for hosting a static site. But after about an hour of research, I found
-					<a
-						href="https://github.com/"
-						class="text-blue-500 hover:underline"
-						>GitHub Pages</a
-					>. It seemed perfect for my needs because it automatically updates the site whenever I push code changes.
-				</p>
+							<!-- Hosting the Website -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-server text-2xl text-green-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Hosting the Website</h2>
+								</div>
+								<p class="text-gray-600 mb-4">
+									With the design ready, I needed a web server to host the site. Initially, I considered using
+									<strong>AWS S3</strong> for hosting a static site. However, after some research, I discovered
+									<a
+										href="https://github.com/"
+										target="_blank"
+										class="text-blue-600 hover:underline"
+										>GitHub Pages</a
+									>, which automatically updates the site whenever I push code changes. It was the perfect fit for my needs.
+								</p>
 
-				<h4 class="text-xl font-semibold mb-2">Setting Up the Hosting</h4>
-				<p class="text-gray-700 mb-4">
-					I uploaded a simple index page to GitHub Pages. The setup was easy, and I loved how it updated automatically
-					whenever I pushed changes to the repository.
-				</p>
+								<h3 class="text-xl font-bold mb-4">Setting Up the Hosting</h3>
+								<p class="text-gray-600 mb-4">
+									I uploaded a simple index page to GitHub Pages. The setup was straightforward, and I loved how it
+									automatically updated whenever I pushed changes to the repository.
+								</p>
+							</div>
 
-				<h4 class="text-xl font-semibold mb-4">Adding the Blog Feature</h4>
-				<p class="text-gray-700 mb-4">
-					With the hosting set up, I decided to add a blog page. Once again, I worked with ChatGPT to fine-tune the
-					design and functionality. After testing the site on mobile devices, I realized it needed some adjustments.
-				</p>
+							<!-- Adding the Blog Feature -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-pen-nib text-2xl text-blue-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Adding the Blog Feature</h2>
+								</div>
+								<p class="text-gray-600 mb-4">
+									With the hosting set up, I decided to add a blog page. Once again, I collaborated with ChatGPT to
+									fine-tune the design and functionality. After testing the site on mobile devices, I realized it needed
+									some adjustments.
+								</p>
 
-				<h4 class="text-xl font-semibold mb-2">Refining Mobile Views</h4>
-				<p class="text-gray-700 mb-4">
-					To make sure the site worked well on mobile devices, I manually adjusted the design. The
-					<a
-						href="https://tailwindcss.com/"
-						class="text-blue-500 hover:underline"
-						>Tailwind CSS</a
-					>
-					documentation helped me learn and apply responsive design techniques. This hands-on experience improved my
-					skills and gave me better control over the final result.
-				</p>
+								<h3 class="text-xl font-bold mb-4">Refining Mobile Views</h3>
+								<p class="text-gray-600 mb-4">
+									To ensure the site worked well on mobile devices, I manually adjusted the design. The
+									<strong>Tailwind CSS</strong> documentation was a lifesaver, helping me learn and apply responsive design
+									techniques. This hands-on experience not only improved my skills but also gave me better control over the
+									final result.
+								</p>
+							</div>
 
-				<h4 class="text-2xl font-semibold mb-4">Reflections on the Journey</h4>
-				<p class="text-gray-700 mb-4">
-					The whole process—from buying the domain to creating the blog—took just two days during my free time. Along
-					the way, I learned a few key lessons:
-				</p>
-				<ul class="list-disc list-inside text-gray-700 mb-4">
-					<li>
-						<strong>Focus on Solving Problems:</strong> As an engineer, I’ve learned to focus on solving problems rather
-						than just chasing new technology.
-					</li>
-					<li>
-						<strong>Programming is a Tool:</strong> It’s about communicating with machines to make them work for us. AI
-						tools like ChatGPT became a helpful part of my toolkit.
-					</li>
-					<li>
-						<strong>AI is a Helper:</strong> Like calculators, AI helps us focus on higher-level problems, enabling
-						innovation and creativity.
-					</li>
-				</ul>
+							<!-- Reflections on the Journey -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-lightbulb text-2xl text-orange-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Reflections on the Journey</h2>
+								</div>
+								<p class="text-gray-600 mb-4">
+									The entire process—from buying the domain to creating the blog—took just two days during my free time.
+									Along the way, I learned a few key lessons:
+								</p>
+								<ul class="text-gray-600 mb-4 list-disc list-inside">
+									<li>
+										<strong>Focus on Solving Problems</strong>: As an engineer, I’ve learned to focus on solving problems
+										rather than just chasing new technology. The tools I used were just a means to an end.
+									</li>
+									<li>
+										<strong>Programming is a Tool</strong>: Programming isn’t just about learning a language; it’s about
+										communicating with machines to make them work for us. In this journey, AI tools like ChatGPT became a
+										helpful part of my toolkit.
+									</li>
+									<li>
+										<strong>AI is a Helper</strong>: When calculators were invented, people thought they would harm
+										education and memory. But they actually helped us achieve amazing things. Similarly, AI isn’t here to
+										replace humans—it’s here to help us focus on bigger ideas and problems.
+									</li>
+								</ul>
+							</div>
 
-				<h4 class="text-2xl font-semibold mb-4">Final Thoughts</h4>
-				<p class="text-gray-700 mb-4">
-					Building this website wasn’t just a technical project—it reflected my approach to engineering and
-					problem-solving. Humans are great at making decisions and using tools to achieve their goals. In this modern
-					AI era, we have the chance to use these tools to innovate and create better things.
-				</p>
-				<p class="text-gray-700">
-					I’m excited to keep learning and sharing my experiences. Here’s to solving problems, thinking big, and making
-					the most of the tools we have!
-				</p>
-				<p class="text-gray-700 mt-6"><strong>Thanks to:</strong></p>
-				<ul class="list-disc list-inside text-gray-700">
-					<li>
-						<a
-							href="https://www.magicpatterns.com/"
-							class="text-blue-500 hover:underline"
-							>MagicPatterns</a
-						>
-					</li>
-					<li>
-						<a
-							href="https://www.godaddy.com/"
-							class="text-blue-500 hover:underline"
-							>GoDaddy</a
-						>
-					</li>
-					<li>
-						<a
-							href="https://www.cloudflare.com/"
-							class="text-blue-500 hover:underline"
-							>Cloudflare</a
-						>
-					</li>
-					<li>
-						<a
-							href="https://github.com/"
-							class="text-blue-500 hover:underline"
-							>GitHub</a
-						>
-					</li>
-					<li>
-						<a
-							href="https://chatgpt.com/"
-							class="text-blue-500 hover:underline"
-							>ChatGPT</a
-						>
-					</li>
-				</ul>
-			</article>
-		</main>
+							<!-- Final Thoughts -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-rocket text-2xl text-red-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Final Thoughts</h2>
+								</div>
+								<p class="text-gray-600 mb-4">
+									Building this website wasn’t just a technical project—it reflected my approach to engineering and
+									problem-solving. Humans are great at making decisions and using tools to achieve their goals. In this
+									modern AI era, we have the chance to use these tools to innovate and create better things.
+								</p>
+								<p class="text-gray-600 mb-4">
+									I’m excited to keep learning and sharing my experiences. Here’s to solving problems, thinking big, and
+									making the most of the tools we have!
+								</p>
+							</div>
 
-		<!-- Footer -->
-		<footer class="bg-gray-100 py-4 mt-8">
-			<div class="max-w-7xl mx-auto text-center">
-				<p class="text-gray-600">© 2025 My Blog - All Rights Reserved</p>
-			</div>
-		</footer>
+							<!-- Thanks to -->
+							<div class="mb-12">
+								<div class="flex items-center mb-4">
+									<i class="fas fa-heart text-2xl text-pink-600 mr-3"></i>
+									<h2 class="text-xl font-bold">Thanks to:</h2>
+								</div>
+								<ul class="text-gray-600 mb-4 list-disc list-inside">
+									<li>
+										<a
+											href="https://www.magicpatterns.com/"
+											target="_blank"
+											class="text-blue-600 hover:underline"
+											>MagicPatterns</a
+										>
+									</li>
+									<li>
+										<a
+											href="https://www.godaddy.com/"
+											target="_blank"
+											class="text-blue-600 hover:underline"
+											>GoDaddy</a
+										>
+									</li>
+									<li>
+										<a
+											href="https://www.cloudflare.com/"
+											target="_blank"
+											class="text-blue-600 hover:underline"
+											>Cloudflare</a
+										>
+									</li>
+									<li>
+										<a
+											href="https://github.com/"
+											target="_blank"
+											class="text-blue-600 hover:underline"
+											>GitHub</a
+										>
+									</li>
+									<li>
+										<a
+											href="https://chatgpt.com/"
+											target="_blank"
+											class="text-blue-600 hover:underline"
+											>ChatGPT</a
+										>
+									</li>
+								</ul>
+							</div>
+						</article>
+					</div>
+				</section>
+			</main>
+
+			<!-- Footer -->
+			<footer class="border-t py-4">
+				<div class="container mx-auto px-6 text-center text-gray-600">
+					<p class="text-xs">© <span id="current-year"></span> Sam M. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+		<script>
+			function toggleMenu() {
+				const menu = document.getElementById('mobile-menu');
+				menu.classList.toggle('hidden');
+			}
+			// Update the current year dynamically
+			// document.getElementById('current-year').textContent = new Date().getFullYear();
+		</script>
 	</body>
 </html>
