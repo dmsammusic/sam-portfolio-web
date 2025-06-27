@@ -47,19 +47,37 @@
 								>About</a
 							>
 						</li>
-						<li class="text-center md:text-left">
-							<a
-								href="#projects"
-								class="block px-4 py-2 hover:text-gray-600"
-								>Projects</a
+						<li class="relative text-center md:text-left">
+							<!-- Clickable Trigger -->
+							<button
+								onclick="toggleProjectsDropdown()"
+								class="block px-4 py-2 w-full text-left hover:text-gray-600 focus:outline-none"
 							>
-						</li>
-						<li class="text-center md:text-left">
-							<a
-								href="#skills"
-								class="block px-4 py-2 hover:text-gray-600"
-								>Skills</a
+								Projects ▼
+							</button>
+						
+							<!-- Dropdown Content -->
+							<ul
+								id="projects-dropdown"
+								class="absolute hidden bg-white border rounded-lg shadow-lg left-0 mt-2 w-48 z-50 text-left"
 							>
+								<li>
+									<a
+										href="./keygen.html"
+										class="block px-4 py-2 hover:bg-gray-100"
+									>
+										Key Generator
+									</a>
+								</li>
+								<li>
+									<a
+										href="#"
+										class="block px-4 py-2 hover:bg-gray-100"
+									>
+										Another Project
+									</a>
+								</li>
+							</ul>
 						</li>
 						<li class="text-center md:text-left">
 							<a
@@ -276,6 +294,25 @@
 				</div>
 			</footer>
 		</div>
+
+		<script> 
+
+function toggleProjectsDropdown() {
+			const dropdown = document.getElementById('projects-dropdown');
+			dropdown.classList.toggle('hidden');
+		}
+	document.addEventListener('click', function (event) {
+	const dropdown = document.getElementById('projects-dropdown');
+	const button = event.target.closest('button');
+
+	if (
+		!event.target.closest('#projects-dropdown') &&
+		!event.target.closest('button') // avoid closing when clicking the toggle
+	) {
+		dropdown.classList.add('hidden');
+	}
+});
+		</script>
 		<script>
 			function toggleMenu() {
 				const menu = document.getElementById('mobile-menu');

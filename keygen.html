@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Random Keygen</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 font-sans text-gray-800">
+    <header class="fixed top-0 w-full bg-white border-b z-10">
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
+        <!-- Navigation menu button for mobile -->
+        <button class="menu-button md:hidden" onclick="toggleMenu()">☰</button>
+        <!-- Navigation list -->
+        <ul
+          id="mobile-menu"
+          class="hidden md:flex md:space-x-8 md:flex-row flex-col absolute md:relative md:top-auto md:right-auto md:bg-transparent top-16 right-0 bg-white w-full md:w-auto border md:border-0 rounded-lg md:rounded-none shadow md:shadow-none"
+        >
+          <!-- <li class="text-center md:text-left">
+            <a
+              href="#about"
+              class="block px-4 py-2 hover:text-gray-600"
+              >Home</a
+            >
+          </li> -->
+          <li class="text-center md:text-left">
+            <a href="./blog.html" class="block px-4 py-2 hover:text-gray-600"
+              >Blog</a
+            >
+          </li>
+          <li class="text-center md:text-left">
+            <a href="./index.html" class="block px-4 py-2 hover:text-gray-600"
+              >home</a
+            >
+          </li>
+          <li class="relative text-center md:text-left">
+            <!-- Clickable Trigger -->
+            <button
+              onclick="toggleProjectsDropdown()"
+              class="block px-4 py-2 w-full text-left hover:text-gray-600 focus:outline-none"
+            >
+              Projects ▼
+            </button>
+
+            <!-- Dropdown Content -->
+            <ul
+              id="projects-dropdown"
+              class="absolute hidden bg-white border rounded-lg shadow-lg left-0 mt-2 w-48 z-50 text-left"
+            >
+              <li>
+                <a
+                  href="./keygen.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Key Generator
+                </a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                  Another Project
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div class="max-w-5xl mx-auto my-8 p-8 bg-white shadow-lg rounded-lg">
+      <h1 class="text-3xl font-bold text-center mb-8">Random Keygen</h1>
+
+      <div class="text-center mb-6">
+        <button
+          onclick="generateAll()"
+          class="px-6 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition"
+        >
+          Generate a New Set of Random Passwords and Keys
+        </button>
+      </div>
+
+      <!-- Section Template -->
+      <div>
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          Memorable Passwords
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="memorable"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          Strong Passwords
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="strong"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          Fort Knox Passwords
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="fortknox"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          CodeIgniter Encryption Keys (256-bit)
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="codeigniter"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          160-bit WPA Key
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="wpa160"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          504-bit WPA Key
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="wpa504"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          64-bit WEP Keys
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="wep64"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          128-bit WEP Keys
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="wep128"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          152-bit WEP Keys
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="wep152"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          256-bit WEP Keys
+        </h3>
+        <div class="flex flex-wrap gap-4 mt-2" id="wep256"></div>
+
+        <h3 class="text-xl font-semibold border-b pb-2 mt-8">
+          Custom Byte Key Generator
+        </h3>
+        <div class="mt-4 flex flex-col sm:flex-row gap-4 sm:items-center">
+          <input
+            type="number"
+            id="customByteLength"
+            placeholder="Enter byte length (e.g., 12)"
+            class="border px-4 py-2 rounded w-full sm:w-64"
+          />
+          <button
+            onclick="generateCustomBytes()"
+            class="px-6 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition"
+          >
+            Generate
+          </button>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-4" id="customBytes"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      const charset =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:<>,.?";
+
+      function randomString(length) {
+        let result = "";
+        const array = new Uint8Array(length);
+        crypto.getRandomValues(array);
+        array.forEach((val) => (result += charset[val % charset.length]));
+        return result;
+      }
+
+      function hexBytes(length) {
+        const bytes = new Uint8Array(length);
+        crypto.getRandomValues(bytes);
+        return Array.from(bytes)
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("")
+          .toUpperCase();
+      }
+
+      function generateSection(sectionId, count, length, isHex = false) {
+        const container = document.getElementById(sectionId);
+        container.innerHTML = "";
+        for (let i = 0; i < count; i++) {
+          const box = document.createElement("div");
+          box.className =
+            "bg-gray-100 p-4 font-mono rounded w-full sm:w-auto overflow-x-auto text-sm";
+          box.textContent = isHex ? hexBytes(length) : randomString(length);
+          container.appendChild(box);
+        }
+      }
+
+      function generateAll() {
+        generateSection("memorable", 4, 10);
+        generateSection("strong", 4, 18);
+        generateSection("fortknox", 2, 24);
+        generateSection("codeigniter", 2, 32);
+        generateSection("wpa160", 2, 20, true);
+        generateSection("wpa504", 2, 63, true);
+        generateSection("wep64", 2, 5, true);
+        generateSection("wep128", 2, 13, true);
+        generateSection("wep152", 2, 16, true);
+        generateSection("wep256", 2, 32, true);
+      }
+
+      function generateCustomBytes() {
+        const len = parseInt(document.getElementById("customByteLength").value);
+        if (isNaN(len) || len <= 0) return alert("Enter a valid byte size");
+        const container = document.getElementById("customBytes");
+        container.innerHTML = "";
+        const box = document.createElement("div");
+        box.className =
+          "bg-gray-100 p-4 font-mono rounded w-full sm:w-auto overflow-x-auto text-sm";
+        box.textContent = hexBytes(len);
+        container.appendChild(box);
+      }
+
+      // Auto-generate on load
+      generateAll();
+    </script>
+  </body>
+</html>

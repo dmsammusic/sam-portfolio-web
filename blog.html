@@ -1,145 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0" />
-		<title>Blog - Sam Solomon Raja M</title>
-		<script src="https://cdn.tailwindcss.com"></script>
-	</head>
-	<body>
-		<div class="w-full min-h-screen bg-white">
-			<!-- Header -->
-			<header class="fixed top-0 w-full bg-white border-b z-10">
-				<div class="container mx-auto px-6 py-4 flex justify-between items-center">
-					<h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
-					<!-- Navigation menu button for mobile -->
-					<button
-						class="menu-button md:hidden"
-						onclick="toggleMenu()">
-						☰
-					</button>
-					<!-- Navigation list -->
-					<ul
-						id="mobile-menu"
-						class="hidden md:flex md:space-x-8 md:flex-row flex-col absolute md:relative md:top-auto md:right-auto md:bg-transparent top-16 right-0 bg-white w-full md:w-auto border md:border-0 rounded-lg md:rounded-none shadow md:shadow-none">
-						<li class="text-center md:text-left">
-							<a
-								href="./index.html"
-								class="block px-4 py-2 hover:text-gray-600"
-								>Home</a
-							>
-						</li>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - Sam Solomon Raja M</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-full min-h-screen bg-white">
+      <!-- Header -->
+      <header class="fixed top-0 w-full bg-white border-b z-10">
+        <div
+          class="container mx-auto px-6 py-4 flex justify-between items-center"
+        >
+          <h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
+          <!-- Navigation menu button for mobile -->
+          <button class="menu-button md:hidden" onclick="toggleMenu()">
+            ☰
+          </button>
+          <!-- Navigation list -->
+          <ul
+            id="mobile-menu"
+            class="hidden md:flex md:space-x-8 md:flex-row flex-col absolute md:relative md:top-auto md:right-auto md:bg-transparent top-16 right-0 bg-white w-full md:w-auto border md:border-0 rounded-lg md:rounded-none shadow md:shadow-none"
+          >
+            <li class="text-center md:text-left">
+              <a href="./index.html" class="block px-4 py-2 hover:text-gray-600"
+                >Home</a
+              >
+            </li>
 
-						<li class="text-center md:text-left">
-							<a
-								href="/index.html#about"
-								class="block px-4 py-2 hover:text-gray-600"
-								>About</a
-							>
-						</li>
-						<li class="text-center md:text-left">
-							<a
-								href="/index.html#projects"
-								class="block px-4 py-2 hover:text-gray-600"
-								>Projects</a
-							>
-						</li>
-						<li class="text-center md:text-left">
-							<a
-								href="/index.html#skills"
-								class="block px-4 py-2 hover:text-gray-600"
-								>Skills</a
-							>
-						</li>
-						<li class="text-center md:text-left">
-							<a
-								href="/index.html#contact"
-								class="block px-4 py-2 hover:text-gray-600"
-								>Contact</a
-							>
-						</li>
-					</ul>
-				</div>
-			</header>
+            <li class="text-center md:text-left">
+              <a
+                href="/index.html#about"
+                class="block px-4 py-2 hover:text-gray-600"
+                >About</a
+              >
+            </li>
+            <li class="relative text-center md:text-left">
+              <!-- Clickable Trigger -->
+              <button
+                onclick="toggleProjectsDropdown()"
+                class="block px-4 py-2 w-full text-left hover:text-gray-600 focus:outline-none"
+              >
+                Projects ▼
+              </button>
 
-			<!-- Main content -->
-			<main class="pt-20">
-				<section class="container mx-auto px-6 py-10 md:py-10 lg:py:20">
-					<div class="max-w-3xl">
-						<h2 class="text-4xl font-bold mb-6 ">Welcome to My Blog</h2>
-						<p class="text-xl text-gray-600 mb-8">
-							Explore my thoughts, experiences, and insights on technology, coding, and much more.
-						</p>
-					</div>
-				</section>
+              <!-- Dropdown Content -->
+              <ul
+                id="projects-dropdown"
+                class="absolute hidden bg-white border rounded-lg shadow-lg left-0 mt-2 w-48 z-50 text-left"
+              >
+                <li>
+                  <a
+                    href="./keygen.html"
+                    class="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Key Generator
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                    Another Project
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="text-center md:text-left">
+              <a
+                href="/index.html#skills"
+                class="block px-4 py-2 hover:text-gray-600"
+                >Skills</a
+              >
+            </li>
+            <li class="text-center md:text-left">
+              <a
+                href="/index.html#contact"
+                class="block px-4 py-2 hover:text-gray-600"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </header>
 
-				<!-- Blog Section -->
-				<section
-					id="blog"
-					class="py-20 bg-gray-50">
-					<div class="container mx-auto px-6">
-						<h3 class="text-3xl font-bold mb-8">Latest Blog Posts</h3>
-						<div class="grid md:grid-cols-2 gap-8">
-							<div class="border rounded-lg overflow-hidden">
-								<div class="bg-gray-100 h-48">
-									<img
-										class="w-full overflow-y-hidden"
-										src="./images/blog.jpg"
-										alt="desk with note image" />
-								</div>
-								<div class="p-8 bg-gray-100 inline-block">
-									<h4 class="text-xl font-bold mb-4">My Journey into Building a Personal Blog Website</h4>
-									<p class="text-gray-600 mb-4">
-										A quick look at how I designed, built, and hosted my personal blog using modern tools like Tailwind
-										CSS, GitHub Pages, and AI services.
-									</p>
-									<a
-										href="./blogs/1.my-journey.html"
-										class="text-sm flex items-center hover:text-gray-600"
-										>Read More</a
-									>
-								</div>
-							</div>
-							<div class="border rounded-lg overflow-hidden">
-								<div class="bg-gray-100 h-48">
-									<img
-										class="w-full overflow-y-hidden"
-										src="./images/blog.jpg"
-										alt="desk with note image" />
-								</div>
-								<div class="p-8 bg-gray-100 inline-block">
-									<h4 class="text-xl font-bold mb-3">The Story of Password Hashing: A Tale of Security and Trust</h4>
-									<p class="text-gray-600 mb-4">
-										the tale of password hashing reminds us that in the digital world, security is not just a feature —
-										it’s a responsibility.
-									</p>
-									<a
-										href="./blogs/2.password-security.html"
-										class="text-sm flex items-center hover:text-gray-600"
-										>Read More</a
-									>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</main>
+      <!-- Main content -->
+      <main class="pt-20">
+        <section class="container mx-auto px-6 py-10 md:py-10 lg:py:20">
+          <div class="max-w-3xl">
+            <h2 class="text-4xl font-bold mb-6">Welcome to My Blog</h2>
+            <p class="text-xl text-gray-600 mb-8">
+              Explore my thoughts, experiences, and insights on technology,
+              coding, and much more.
+            </p>
+          </div>
+        </section>
 
-			<!-- Footer -->
-			<footer class="border-t py-4">
-				<div class="container mx-auto px-6 text-center text-gray-600">
-					<p class="text-xs">© 2025 Sam M. All rights reserved.</p>
-				</div>
-			</footer>
-		</div>
+        <!-- Blog Section -->
+        <section id="blog" class="py-20 bg-gray-50">
+          <div class="container mx-auto px-6">
+            <h3 class="text-3xl font-bold mb-8">Latest Blog Posts</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="border rounded-lg overflow-hidden">
+                <div class="bg-gray-100 h-48">
+                  <img
+                    class="w-full overflow-y-hidden"
+                    src="./images/blog.jpg"
+                    alt="desk with note image"
+                  />
+                </div>
+                <div class="p-8 bg-gray-100 inline-block">
+                  <h4 class="text-xl font-bold mb-4">
+                    My Journey into Building a Personal Blog Website
+                  </h4>
+                  <p class="text-gray-600 mb-4">
+                    A quick look at how I designed, built, and hosted my
+                    personal blog using modern tools like Tailwind CSS, GitHub
+                    Pages, and AI services.
+                  </p>
+                  <a
+                    href="./blogs/1.my-journey.html"
+                    class="text-sm flex items-center hover:text-gray-600"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+              <div class="border rounded-lg overflow-hidden">
+                <div class="bg-gray-100 h-48">
+                  <img
+                    class="w-full overflow-y-hidden"
+                    src="./images/blog.jpg"
+                    alt="desk with note image"
+                  />
+                </div>
+                <div class="p-8 bg-gray-100 inline-block">
+                  <h4 class="text-xl font-bold mb-3">
+                    The Story of Password Hashing: A Tale of Security and Trust
+                  </h4>
+                  <p class="text-gray-600 mb-4">
+                    the tale of password hashing reminds us that in the digital
+                    world, security is not just a feature — it’s a
+                    responsibility.
+                  </p>
+                  <a
+                    href="./blogs/2.password-security.html"
+                    class="text-sm flex items-center hover:text-gray-600"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
 
-		<script>
-			function toggleMenu() {
-				const menu = document.getElementById('mobile-menu');
-				menu.classList.toggle('hidden');
-			}
-		</script>
-	</body>
+      <!-- Footer -->
+      <footer class="border-t py-4">
+        <div class="container mx-auto px-6 text-center text-gray-600">
+          <p class="text-xs">© 2025 Sam M. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    // dropdown
+    <script>
+      function toggleProjectsDropdown() {
+        const dropdown = document.getElementById("projects-dropdown");
+        dropdown.classList.toggle("hidden");
+      }
+      document.addEventListener("click", function (event) {
+        const dropdown = document.getElementById("projects-dropdown");
+        const button = event.target.closest("button");
+
+        if (
+          !event.target.closest("#projects-dropdown") &&
+          !event.target.closest("button") // avoid closing when clicking the toggle
+        ) {
+          dropdown.classList.add("hidden");
+        }
+      });
+    </script>
+
+    // mobile menu
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
+      }
+    </script>
+  </body>
 </html>
