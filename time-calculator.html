@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work End Time</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body class="bg-gray-100 font-sans text-gray-800">
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full bg-white border-b z-10">
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
+
+        <button class="menu-button md:hidden" onclick="toggleMenu()">☰</button>
+
+        <ul
+          id="mobile-menu"
+          class="hidden md:flex md:space-x-8 md:flex-row flex-col absolute md:relative md:top-auto md:right-auto md:bg-transparent top-16 right-0 bg-white w-full md:w-auto border md:border-0 rounded-lg md:rounded-none shadow md:shadow-none"
+        >
+          <li>
+            <a href="./blog.html" class="block px-4 py-2 hover:text-gray-600"
+              >Blog</a
+            >
+          </li>
+          <li>
+            <a href="./index.html" class="block px-4 py-2 hover:text-gray-600"
+              >Home</a
+            >
+          </li>
+
+          <!-- TOOLS DROPDOWN -->
+          <li class="relative text-center md:text-left">
+            <button
+              onclick="toggleProjectsDropdown()"
+              class="block px-4 py-2 w-full text-left hover:text-gray-600"
+            >
+              Tools ▼
+            </button>
+
+            <ul
+              id="projects-dropdown"
+              class="absolute hidden bg-white border rounded-lg shadow-lg left-0 mt-2 w-48 z-50 text-left"
+            >
+              <li>
+                <a
+                  href="./time-calculator.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Work End Time
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="./keygen.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Key Generator
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#contact" class="block px-4 py-2 hover:text-gray-600"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="card my-16">
+      <h3>Work End Time</h3>
+      <h2>Last Out Time</h2>
+      <input type="time" id="lastIn" />
+      <h2>Worked Hours</h2>
+      <input id="worked" placeholder="Worked Hours (05:36)" />
+
+      <button
+        class="fill text-white hover:bg-gray-800"
+        onclick="calculate()"
+      >
+        Calculate
+      </button>
+
+      <div class="result" id="output" style="display: none"></div>
+    </div>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>
