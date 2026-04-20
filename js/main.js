@@ -97,66 +97,98 @@ function show(html) {
   el.innerHTML = html;
 }
 
+// ================= ORIGINAL LOGIC (UNCHANGED) =================
 
+const charset =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:<>,.?";
 
+function randomString(length) {
+  let result = "";
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  array.forEach((val) => (result += charset[val % charset.length]));
+  return result;
+}
 
-  // ================= ORIGINAL LOGIC (UNCHANGED) =================
+function hexBytes(length) {
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+    .toUpperCase();
+}
 
-      const charset =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:<>,.?";
+function generateSection(id, count, len, hex = false) {
+  const el = document.getElementById(id);
+  el.innerHTML = "";
 
-      function randomString(length) {
-        let result = "";
-        const array = new Uint8Array(length);
-        crypto.getRandomValues(array);
-        array.forEach((val) => (result += charset[val % charset.length]));
-        return result;
-      }
+  for (let i = 0; i < count; i++) {
+    const box = document.createElement("div");
+    box.className = "key-box";
+    box.textContent = hex ? hexBytes(len) : randomString(len);
+    el.appendChild(box);
+  }
+}
 
-      function hexBytes(length) {
-        const bytes = new Uint8Array(length);
-        crypto.getRandomValues(bytes);
-        return Array.from(bytes)
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("")
-          .toUpperCase();
-      }
+function generateAll() {
+  generateSection("memorable", 4, 10);
+  generateSection("strong", 4, 18);
+  generateSection("fortknox", 2, 24);
+  generateSection("codeigniter", 2, 32);
+  generateSection("wpa160", 2, 20, true);
+  generateSection("wpa504", 2, 63, true);
+  generateSection("wep64", 2, 5, true);
+  generateSection("wep128", 2, 13, true);
+  generateSection("wep152", 2, 16, true);
+  generateSection("wep256", 2, 32, true);
+}
 
-      function generateSection(id, count, len, hex = false) {
-        const el = document.getElementById(id);
-        el.innerHTML = "";
+function generateCustomBytes() {
+  const len = parseInt(document.getElementById("customByteLength").value);
+  if (!len || len <= 0) return alert("Enter valid length");
 
-        for (let i = 0; i < count; i++) {
-          const box = document.createElement("div");
-          box.className = "key-box";
-          box.textContent = hex ? hexBytes(len) : randomString(len);
-          el.appendChild(box);
-        }
-      }
+  const el = document.getElementById("customBytes");
+  el.innerHTML = "";
 
-      function generateAll() {
-        generateSection("memorable", 4, 10);
-        generateSection("strong", 4, 18);
-        generateSection("fortknox", 2, 24);
-        generateSection("codeigniter", 2, 32);
-        generateSection("wpa160", 2, 20, true);
-        generateSection("wpa504", 2, 63, true);
-        generateSection("wep64", 2, 5, true);
-        generateSection("wep128", 2, 13, true);
-        generateSection("wep152", 2, 16, true);
-        generateSection("wep256", 2, 32, true);
-      }
+  const box = document.createElement("div");
+  box.className = "key-box";
+  box.textContent = hexBytes(len);
 
-      function generateCustomBytes() {
-        const len = parseInt(document.getElementById("customByteLength").value);
-        if (!len || len <= 0) return alert("Enter valid length");
+  el.appendChild(box);
+}
 
-        const el = document.getElementById("customBytes");
-        el.innerHTML = "";
+// Theme Logic
 
-        const box = document.createElement("div");
-        box.className = "key-box";
-        box.textContent = hexBytes(len);
+// Apply saved theme on load
+window.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("theme") || "light";
 
-        el.appendChild(box);
-      }
+  if (saved === "dark") {
+    document.documentElement.classList.add("dark");
+    document.getElementById("themeToggle")?.setAttribute("checked", true);
+  }
+});
+
+// Toggle Theme
+function toggleTheme() {
+  const isDark = document.documentElement.classList.toggle("dark");
+
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+
+  // Monaco theme switch
+  if (window.monaco && window.editor) {
+    monaco.editor.setTheme(isDark ? "vs-dark" : "vs");
+  }
+}
+
+const isDark = document.documentElement.classList.contains("dark");
+
+editor = monaco.editor.create(document.getElementById("editor"), {
+  value: `{ "userId": 1 }`,
+  language: "json",
+  theme: isDark ? "vs-dark" : "vs",
+  automaticLayout: true,
+  fontSize: 14,
+  minimap: { enabled: false },
+});

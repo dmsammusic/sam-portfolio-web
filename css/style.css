@@ -197,9 +197,9 @@ input {
   box-sizing: border-box;
 }
 
-/* button {
- 
-} */
+button .animated {
+  transition: all 0.2s ease;
+}
 
 .fill {
   width: 100%;
@@ -238,4 +238,45 @@ input {
   align-items: center;
   gap: 6px;
   font-size: 12px;
+}
+
+
+
+.switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  display: inline-block;
+}
+
+.switch input {
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #ccc;
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background: #000;
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
 }
