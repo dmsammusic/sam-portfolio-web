@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sam M — Portfolio</title>
+    <meta name="description" content="Sam Solomon Raja M — backend developer and system architect, and the person behind the tools on this site." />
+    <!-- @include "partials/theme-init.html" -->
+    <link rel="stylesheet" href="/src/css/main.css" />
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col">
+    <!-- @include "partials/header.html" -->
+
+    <main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 pb-20 w-full">
+      <!-- INTRO -->
+      <section class="pt-12 pb-10">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Hi, I'm Sam.</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-4">
+          I'm a backend developer and system architect with over 7 years of
+          experience designing scalable systems. The tools on this site
+          — the key generator, the JSON formatter, the time calculator —
+          started as things I built for my own workflow, and I kept them
+          around because they turned out useful to more than just me.
+        </p>
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+          I care as much about developer experience as I do about backend
+          architecture, which is why the tools exist alongside the résumé
+          on this site rather than instead of it.
+        </p>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="pb-10 border-t border-gray-200 dark:border-gray-800 pt-10">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Skills & Technologies</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Frontend</h3>
+            <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1.5">
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>Angular</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Backend</h3>
+            <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1.5">
+              <li>Node.js</li>
+              <li>NestJS</li>
+              <li>MongoDB</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Tools</h3>
+            <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1.5">
+              <li>Docker</li>
+              <li>AWS</li>
+              <li>Git</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Others</h3>
+            <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1.5">
+              <li>Ubuntu</li>
+              <li>Scrum</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="border-t border-gray-200 dark:border-gray-800 pt-10">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Get in touch</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">
+          Open to backend engineering opportunities and interesting problems — feel free to reach out.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="mailto:dmsammmusic@gmail.com" class="nav-link border border-gray-200 dark:border-gray-800">Email</a>
+          <a href="https://github.com/dmsammusic" target="_blank" rel="noopener" class="nav-link border border-gray-200 dark:border-gray-800">GitHub</a>
+          <a href="https://linkedin.com/in/sam-solomon-raja" target="_blank" rel="noopener" class="nav-link border border-gray-200 dark:border-gray-800">LinkedIn</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- @include "partials/footer.html" -->
+
+    <script type="module" src="/src/js/nav.js"></script>
+    <script type="module" src="/src/js/theme.js"></script>
+  </body>
+</html>

@@ -2,156 +2,109 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Random Keygen</title>
-
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Key Generator — Sam M</title>
+    <meta name="description" content="Generate secure random keys, passwords, and hex strings for development." />
+    <!-- @include "partials/theme-init.html" -->
+    <link rel="stylesheet" href="/src/css/main.css" />
   </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col">
+    <!-- @include "partials/header.html" -->
 
-  <body class="bg-gray-100 font-sans text-gray-800">
-    <!-- HEADER -->
-    <header class="fixed top-0 w-full bg-white border-b z-10">
-      <div
-        class="container mx-auto px-6 py-4 flex justify-between items-center"
-      >
-        <h1 class="text-xl font-bold">Sam Solomon Raja M</h1>
-
-        <button class="menu-button md:hidden" onclick="toggleMenu()">☰</button>
-
-        <ul
-          id="mobile-menu"
-          class="hidden md:flex md:space-x-8 md:flex-row flex-col absolute md:relative md:top-auto md:right-auto md:bg-transparent top-16 right-0 bg-white w-full md:w-auto border md:border-0 rounded-lg md:rounded-none shadow md:shadow-none"
-        >
-          <li>
-            <a href="./index.html" class="block px-4 py-2 hover:text-gray-600"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a href="./blog.html" class="block px-4 py-2 hover:text-gray-600"
-              >Blog</a
-            >
-          </li>
-
-          <!-- TOOLS DROPDOWN -->
-          <li class="relative text-center md:text-left">
-            <!-- Clickable Trigger -->
-            <button
-              onclick="toggleProjectsDropdown()"
-              class="block px-4 py-2 w-full text-left hover:text-gray-600 focus:outline-none"
-            >
-              Tools ▼
-            </button>
-
-            <ul
-              id="projects-dropdown"
-              class="absolute hidden bg-white border rounded-lg shadow-lg left-0 mt-2 w-48 z-50 text-left"
-            >
-              <li>
-                <a
-                  href="./time-calculator.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                >
-                  Work End Time
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="./keygen.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                >
-                  Key Generator
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#contact" class="block px-4 py-2 hover:text-gray-600"
-              >Contact</a
-            >
-          </li>
-        </ul>
-      </div>
-    </header>
-
-    <!-- MAIN -->
-    <div class="max-w-5xl mx-auto mt-24 p-8 bg-white shadow-lg rounded-lg">
-      <h1 class="text-3xl font-bold text-center mb-8">Random Keygen</h1>
-
-      <div class="text-center mb-6">
+    <main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 pb-20 w-full">
+      <div class="pt-8 pb-6 flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Key Generator</h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Click any key to copy it.</p>
+        </div>
         <button
-          onclick="generateAll()"
-          class="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
+          id="generate-all"
+          type="button"
+          class="px-4 py-2 rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
         >
-          Generate New Keys
+          Generate new keys
         </button>
       </div>
 
-      <!-- Sections -->
-      <div>
-        <h3 class="section-title">Memorable Passwords</h3>
-        <div class="grid-box" id="memorable"></div>
+      <div class="space-y-8">
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Memorable Passwords</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="memorable"></div>
+        </section>
 
-        <h3 class="section-title">Strong Passwords</h3>
-        <div class="grid-box" id="strong"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Strong Passwords</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="strong"></div>
+        </section>
 
-        <h3 class="section-title">Fort Knox Passwords</h3>
-        <div class="grid-box" id="fortknox"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Fort Knox Passwords</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="fortknox"></div>
+        </section>
 
-        <h3 class="section-title">CodeIgniter Keys (256-bit)</h3>
-        <div class="grid-box" id="codeigniter"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">CodeIgniter Keys (256-bit)</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="codeigniter"></div>
+        </section>
 
-        <h3 class="section-title">160-bit WPA Key</h3>
-        <div class="grid-box" id="wpa160"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">160-bit WPA Key</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="wpa160"></div>
+        </section>
 
-        <h3 class="section-title">504-bit WPA Key</h3>
-        <div class="grid-box" id="wpa504"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">504-bit WPA Key</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="wpa504"></div>
+        </section>
 
-        <h3 class="section-title">64-bit WEP Keys</h3>
-        <div class="grid-box" id="wep64"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">64-bit WEP Keys</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="wep64"></div>
+        </section>
 
-        <h3 class="section-title">128-bit WEP Keys</h3>
-        <div class="grid-box" id="wep128"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">128-bit WEP Keys</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="wep128"></div>
+        </section>
 
-        <h3 class="section-title">152-bit WEP Keys</h3>
-        <div class="grid-box" id="wep152"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">152-bit WEP Keys</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="wep152"></div>
+        </section>
 
-        <h3 class="section-title">256-bit WEP Keys</h3>
-        <div class="grid-box" id="wep256"></div>
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">256-bit WEP Keys</h2>
+          <div class="grid gap-2 sm:grid-cols-2" id="wep256"></div>
+        </section>
 
-        <!-- Custom -->
-        <h3 class="section-title">Custom Byte Generator</h3>
-
-        <div class="flex gap-4 mt-4">
-          <input
-            id="customByteLength"
-            type="number"
-            placeholder="Byte length"
-            class="border px-4 py-2 rounded w-64"
-          />
-
-          <button
-            onclick="generateCustomBytes()"
-            class="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
-          >
-            Generate
-          </button>
-        </div>
-
-        <div class="grid-box mt-4" id="customBytes"></div>
+        <section class="border-t border-gray-200 dark:border-gray-800 pt-6">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">Custom Byte Generator</h2>
+          <div class="flex gap-3 flex-wrap items-center">
+            <input
+              id="customByteLength"
+              type="number"
+              min="1"
+              placeholder="Byte length"
+              class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm w-40 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <button
+              id="generate-custom"
+              type="button"
+              class="px-4 py-2 rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+            >
+              Generate
+            </button>
+          </div>
+          <p id="customByteError" class="hidden text-sm text-red-500 mt-2">Enter a valid byte length.</p>
+          <div class="grid gap-2 sm:grid-cols-2 mt-4" id="customBytes"></div>
+        </section>
       </div>
-    </div>
+    </main>
 
-    <script src="./js/main.js"></script>
+    <!-- @include "partials/footer.html" -->
 
-    <script>
-      // Auto run
-      generateAll();
-    </script>
+    <script type="module" src="/src/js/nav.js"></script>
+    <script type="module" src="/src/js/theme.js"></script>
+    <script type="module" src="/src/js/keygen.js"></script>
   </body>
 </html>

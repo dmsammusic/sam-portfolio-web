@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Tailwind v4 defaults dark: to prefers-color-scheme; we drive it from a
+   persisted .dark class on <html> instead, toggled in src/js/theme.js. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .key-box {
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-md px-3 py-2 font-mono text-[13px] break-all cursor-pointer transition-colors hover:bg-gray-200 dark:hover:bg-gray-700;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+  }
+
+  .nav-link[data-active="true"] {
+    @apply text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800;
+  }
+
+  .icon-btn {
+    @apply inline-flex items-center justify-center w-9 h-9 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+  }
+
+  .segment-btn {
+    @apply px-3 py-1.5 text-sm rounded-md text-gray-600 dark:text-gray-300 transition-colors;
+  }
+
+  .segment-btn[data-active="true"] {
+    @apply bg-indigo-600 text-white;
+  }
+}

@@ -1,0 +1,32 @@
+<header class="fixed top-0 inset-x-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+    <a href="/" class="font-mono text-sm font-semibold text-gray-900 dark:text-white">
+      Sam M<span class="text-indigo-600 dark:text-indigo-400">.</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1" id="desktop-nav">
+      <a href="/" class="nav-link" data-nav="home">Tools</a>
+      <a href="/portfolio.html" class="nav-link" data-nav="portfolio">Portfolio</a>
+      <a href="/blog.html" class="nav-link" data-nav="blog">Blog</a>
+    </nav>
+
+    <div class="flex items-center gap-1">
+      <button id="theme-toggle" type="button" class="icon-btn" aria-label="Toggle dark mode">
+        <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
+
+      <button id="mobile-menu-toggle" type="button" class="icon-btn md:hidden" aria-label="Toggle menu" aria-expanded="false">
+        <svg id="menu-icon-open" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="menu-icon-close" class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 px-4 py-2 flex flex-col gap-1">
+    <a href="/" class="nav-link" data-nav="home">Tools</a>
+    <a href="/portfolio.html" class="nav-link" data-nav="portfolio">Portfolio</a>
+    <a href="/blog.html" class="nav-link" data-nav="blog">Blog</a>
+  </nav>
+</header>
+<div class="h-14"></div>

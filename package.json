@@ -1,0 +1,23 @@
+{
+  "name": "sam-portfolio-web",
+  "version": "1.0.0",
+  "description": "Sam Solomon Raja M — tool hub & portfolio",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-personal:dmsammusic/sam-portfolio-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.1.5"
+  }
+}
