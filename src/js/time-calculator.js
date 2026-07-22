@@ -35,9 +35,6 @@ function formatWorkedInput(raw) {
 }
 
 const workedInput = document.getElementById("worked");
-const lastOutField = document.getElementById("lastout-field");
-const modeLastOut = document.getElementById("mode-lastout");
-const modeNow = document.getElementById("mode-now");
 const output = document.getElementById("output");
 const outputTime = document.getElementById("output-time");
 const outputRemaining = document.getElementById("output-remaining");
@@ -45,25 +42,11 @@ const formatToggle = document.getElementById("format-toggle");
 const errorMsg = document.getElementById("error-msg");
 
 let is24 = false;
-let mode = "lastout"; // "lastout" | "now" — which reference point to calculate completion from
 let completion = null; // absolute target minute-of-day for leaving; fixed once calculated
 
 workedInput?.addEventListener("input", () => {
   workedInput.value = formatWorkedInput(workedInput.value);
 });
-
-function setMode(next) {
-  mode = next;
-  modeLastOut.setAttribute("data-active", String(mode === "lastout"));
-  modeNow.setAttribute("data-active", String(mode === "now"));
-  lastOutField.classList.toggle("hidden", mode !== "lastout");
-  errorMsg.classList.add("hidden");
-  output.classList.add("hidden");
-  completion = null;
-}
-
-modeLastOut?.addEventListener("click", () => setMode("lastout"));
-modeNow?.addEventListener("click", () => setMode("now"));
 
 // Remaining time is measured against the actual current clock every time this
 // runs, so it counts down correctly even if you leave the page open and check
@@ -91,15 +74,13 @@ function calculate() {
   const worked = workedInput.value;
   const lastIn = document.getElementById("lastIn").value;
 
-  if (!worked || (mode === "lastout" && !lastIn)) {
-    errorMsg.textContent = mode === "lastout" ? "Enter both fields." : "Enter your worked hours.";
+  if (!worked || !lastIn) {
     errorMsg.classList.remove("hidden");
     return;
   }
   errorMsg.classList.add("hidden");
 
-  const base = mode === "lastout" ? toMin(lastIn) : minutesNow();
-  completion = base + (480 - toMin(worked));
+  completion = toMin(lastIn) + (480 - toMin(worked));
   renderResult();
 }
 

@@ -38,13 +38,13 @@ function iconSvg(name) {
 
 function cardHtml(tool) {
   return `
-    <a href="${tool.href}" class="group block rounded-lg border border-gray-200 dark:border-gray-800 p-5 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-sm transition-all">
-      <div class="w-10 h-10 rounded-md bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
+    <a href="${tool.href}" class="group block rounded-lg border border-gray-200 dark:border-gray-800 p-5 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm transition-all">
+      <div class="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 flex items-center justify-center mb-4">
         ${iconSvg(tool.icon)}
       </div>
       <h3 class="font-semibold text-gray-900 dark:text-white mb-1">${tool.name}</h3>
       <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${tool.description}</p>
-      <span class="text-sm font-medium text-indigo-600 dark:text-indigo-400 group-hover:underline">Open tool →</span>
+      <span class="text-sm font-medium text-gray-900 dark:text-white group-hover:underline">Open tool →</span>
     </a>
   `;
 }
