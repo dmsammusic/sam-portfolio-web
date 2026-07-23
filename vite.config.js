@@ -44,6 +44,8 @@ export default defineConfig({
         keygen: resolve(root, "keygen.html"),
         todo: resolve(root, "todo.html"),
         insights: resolve(root, "insights.html"),
+        settings: resolve(root, "settings.html"),
+        taskManager: resolve(root, "task-manager.html"),
         timeCalculator: resolve(root, "time-calculator.html"),
         jsonFormattor: resolve(root, "json-formattor.html"),
         blog: resolve(root, "blog.html"),

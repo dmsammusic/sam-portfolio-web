@@ -19,7 +19,7 @@
 
       <!-- AUTH -->
       <div id="auth-section" class="rounded-lg border border-gray-200 dark:border-gray-800 p-6">
-        <div class="inline-flex rounded-md border border-gray-200 dark:border-gray-800 p-0.5 mb-4">
+        <div id="auth-tabs" class="inline-flex rounded-md border border-gray-200 dark:border-gray-800 p-0.5 mb-4">
           <button id="auth-tab-login" type="button" class="nav-link" data-active="true">Log in</button>
           <button id="auth-tab-signup" type="button" class="nav-link">Sign up</button>
         </div>
@@ -57,29 +57,49 @@
               />
               <p id="username-status" class="text-xs mt-1"></p>
             </div>
+            <div>
+              <label for="auth-dob" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date of birth</label>
+              <input
+                id="auth-dob"
+                type="date"
+                autocomplete="bday"
+                class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+              />
+            </div>
           </div>
 
-          <div>
-            <label for="auth-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+          <div id="email-field">
+            <label id="auth-email-label" for="auth-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email or username</label>
             <input
               id="auth-email"
-              type="email"
-              required
-              autocomplete="email"
+              type="text"
+              autocomplete="username"
               class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
             />
           </div>
-          <div>
-            <label for="auth-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+          <div id="password-field">
+            <label id="auth-password-label" for="auth-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
             <input
               id="auth-password"
               type="password"
-              required
               minlength="6"
               autocomplete="current-password"
               class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
             />
           </div>
+          <div id="confirm-password-field" class="hidden">
+            <label id="auth-confirm-password-label" for="auth-confirm-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm password</label>
+            <input
+              id="auth-confirm-password"
+              type="password"
+              minlength="6"
+              autocomplete="new-password"
+              class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+            />
+          </div>
+
+          <button id="forgot-password-link" type="button" class="text-xs text-gray-500 dark:text-gray-400 hover:underline">Forgot password?</button>
+          <a id="reset-back-link" href="#" class="hidden text-xs text-gray-500 dark:text-gray-400 hover:underline">← Back to login</a>
 
           <p id="auth-message" class="hidden text-sm"></p>
 
@@ -141,6 +161,7 @@
     <!-- @include "partials/footer.html" -->
     <!-- @include "partials/onboarding-modal.html" -->
 
+    <script type="module" src="/src/js/analytics.js"></script>
     <script type="module" src="/src/js/nav.js"></script>
     <script type="module" src="/src/js/theme.js"></script>
     <script type="module" src="/src/js/user-nav.js"></script>

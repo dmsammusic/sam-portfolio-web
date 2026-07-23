@@ -1,13 +1,17 @@
 import { supabase } from "./supabase-client.js";
 import { toISODate, addDays, startOfWeek, isSameDay } from "./date-utils.js";
+import { renderTodoRow } from "./todo-row.js";
+import { resolveEmailForLogin } from "./profile.js";
 
 // ---- DOM refs ----
 
 const authSection = document.getElementById("auth-section");
 const appSection = document.getElementById("app-section");
 const authForm = document.getElementById("auth-form");
+const authTabs = document.getElementById("auth-tabs");
 const authEmail = document.getElementById("auth-email");
 const authPassword = document.getElementById("auth-password");
+const authConfirmPassword = document.getElementById("auth-confirm-password");
 const authMessage = document.getElementById("auth-message");
 const authSubmit = document.getElementById("auth-submit");
 const authTabLogin = document.getElementById("auth-tab-login");
@@ -16,7 +20,16 @@ const signupFields = document.getElementById("signup-fields");
 const authFirstName = document.getElementById("auth-first-name");
 const authLastName = document.getElementById("auth-last-name");
 const authUsername = document.getElementById("auth-username");
+const authDob = document.getElementById("auth-dob");
 const usernameStatus = document.getElementById("username-status");
+const authEmailLabel = document.getElementById("auth-email-label");
+const authPasswordLabel = document.getElementById("auth-password-label");
+const authConfirmPasswordLabel = document.getElementById("auth-confirm-password-label");
+const emailField = document.getElementById("email-field");
+const passwordField = document.getElementById("password-field");
+const confirmPasswordField = document.getElementById("confirm-password-field");
+const forgotPasswordLink = document.getElementById("forgot-password-link");
+const resetBackLink = document.getElementById("reset-back-link");
 const addForm = document.getElementById("add-form");
 const todoTitleInput = document.getElementById("todo-title");
 const todoDateInput = document.getElementById("todo-date");
@@ -27,7 +40,8 @@ const statusTabs = document.querySelectorAll(".status-tab");
 const todoList = document.getElementById("todo-list");
 const todoEmpty = document.getElementById("todo-empty");
 
-let authMode = "login"; // "login" | "signup"
+let authMode = "login"; // "login" | "signup" | "reset-request" | "recovery"
+let isRecoveryFlow = false; // set once Supabase reports a PASSWORD_RECOVERY session
 
 function showMessage(text, type = "error") {
   authMessage.textContent = text;
@@ -35,18 +49,42 @@ function showMessage(text, type = "error") {
   authMessage.classList.remove("hidden");
 }
 
+const SUBMIT_LABEL = {
+  login: "Log in",
+  signup: "Sign up",
+  "reset-request": "Send reset link",
+  recovery: "Set new password",
+};
+
 function setAuthMode(mode) {
   authMode = mode;
+  authMessage.classList.add("hidden");
+
+  authTabs.classList.toggle("hidden", mode === "reset-request" || mode === "recovery");
   authTabLogin.setAttribute("data-active", String(mode === "login"));
   authTabSignup.setAttribute("data-active", String(mode === "signup"));
-  authSubmit.textContent = mode === "login" ? "Log in" : "Sign up";
-  authPassword.autocomplete = mode === "login" ? "current-password" : "new-password";
+
   signupFields.classList.toggle("hidden", mode !== "signup");
-  authMessage.classList.add("hidden");
+  emailField.classList.toggle("hidden", mode === "recovery");
+  passwordField.classList.toggle("hidden", mode === "reset-request");
+  confirmPasswordField.classList.toggle("hidden", mode !== "signup" && mode !== "recovery");
+  forgotPasswordLink.classList.toggle("hidden", mode !== "login");
+  resetBackLink.classList.toggle("hidden", mode === "login" || mode === "signup");
+
+  authEmailLabel.textContent = mode === "login" ? "Email or username" : "Email";
+  authPasswordLabel.textContent = mode === "recovery" ? "New password" : "Password";
+  authConfirmPasswordLabel.textContent = mode === "recovery" ? "Confirm new password" : "Confirm password";
+  authPassword.autocomplete = mode === "login" ? "current-password" : "new-password";
+  authSubmit.textContent = SUBMIT_LABEL[mode];
 }
 
 authTabLogin.addEventListener("click", () => setAuthMode("login"));
 authTabSignup.addEventListener("click", () => setAuthMode("signup"));
+forgotPasswordLink.addEventListener("click", () => setAuthMode("reset-request"));
+resetBackLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  setAuthMode("login");
+});
 
 // Debounced availability check as the user types — the unique constraint in
 // profiles_schema.sql is the real enforcement; this is just early feedback.
@@ -78,21 +116,72 @@ authUsername.addEventListener("input", () => {
 
 authForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const email = authEmail.value.trim();
+
+  if (authMode === "reset-request") {
+    const email = authEmail.value.trim();
+    if (!email) return;
+    await supabase.auth.resetPasswordForEmail(email);
+    // Same message regardless of whether the email has an account — otherwise
+    // this form could be used to enumerate registered emails.
+    showMessage("If that email has an account, a reset link is on its way.", "success");
+    return;
+  }
+
+  if (authMode === "recovery") {
+    const password = authPassword.value;
+    const confirmPassword = authConfirmPassword.value;
+
+    if (!password || password.length < 6) {
+      showMessage("Password must be at least 6 characters.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      showMessage("Passwords don't match.");
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
+
+    await supabase.auth.signOut();
+    isRecoveryFlow = false;
+    setAuthMode("login");
+    showMessage("Password updated — log in with your new password.", "success");
+    return;
+  }
+
+  const identifier = authEmail.value.trim();
   const password = authPassword.value;
 
   if (authMode === "login") {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    // "identifier" may be an email or a username — resolve a username to its
+    // email first, since Supabase Auth's sign-in only accepts email/phone.
+    // An unknown username resolves to null, which signInWithPassword rejects
+    // with the same generic invalid-credentials error a wrong password would,
+    // so this can't be used to tell whether a username exists.
+    const email = await resolveEmailForLogin(identifier);
+    const { error } = await supabase.auth.signInWithPassword({ email: email ?? identifier, password });
     if (error) showMessage(error.message);
+    return;
+  }
+
+  // signup
+  const confirmPassword = authConfirmPassword.value;
+  if (password !== confirmPassword) {
+    showMessage("Passwords don't match.");
     return;
   }
 
   const firstName = authFirstName.value.trim();
   const lastName = authLastName.value.trim();
   const username = authUsername.value.trim();
+  const dob = authDob.value;
 
-  if (!firstName || !lastName || !username) {
-    showMessage("First name, last name, and username are all required.");
+  if (!firstName || !lastName || !username || !dob) {
+    showMessage("First name, last name, username, and date of birth are all required.");
     return;
   }
   if (username.length <= 3) {
@@ -105,9 +194,9 @@ authForm.addEventListener("submit", async (e) => {
   }
 
   const { error } = await supabase.auth.signUp({
-    email,
+    email: identifier,
     password,
-    options: { data: { username, first_name: firstName, last_name: lastName } },
+    options: { data: { username, first_name: firstName, last_name: lastName, date_of_birth: dob } },
   });
 
   if (error) {
@@ -215,133 +304,16 @@ async function loadTodos() {
   renderTodos(todos ?? [], subtasksByTodo);
 }
 
+function belongsInView(todo) {
+  return todo.date === toISODate(selectedDate) && todo.done === (statusFilter === "completed");
+}
+
 function renderTodos(todos, subtasksByTodo) {
   todoList.innerHTML = "";
   todoEmpty.classList.toggle("hidden", todos.length > 0);
-  todos.forEach((todo) => todoList.appendChild(todoRow(todo, subtasksByTodo.get(todo.id) ?? [])));
-}
-
-function todoRow(todo, subtasks) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "rounded-md hover:bg-gray-50 dark:hover:bg-gray-800/60";
-
-  const row = document.createElement("div");
-  row.className = "flex items-center gap-2 px-2 py-1.5 group";
-
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.checked = todo.done;
-  checkbox.className = "w-4 h-4 accent-black dark:accent-white shrink-0";
-  checkbox.addEventListener("change", async () => {
-    await supabase.from("todos").update({ done: checkbox.checked }).eq("id", todo.id);
-    wrapper.remove(); // no longer belongs to the current Pending/Completed filter
-  });
-
-  const title = document.createElement("span");
-  title.textContent = todo.title;
-  title.className = `flex-1 text-sm cursor-text ${todo.done ? "line-through text-gray-400" : "text-gray-800 dark:text-gray-100"}`;
-  title.title = "Click to edit";
-  title.addEventListener("click", () => startEdit(title, todo));
-
-  const del = document.createElement("button");
-  del.type = "button";
-  del.textContent = "Delete";
-  del.className = "text-xs text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shrink-0";
-  del.addEventListener("click", async () => {
-    await supabase.from("todos").delete().eq("id", todo.id);
-    wrapper.remove();
-  });
-
-  row.append(checkbox, title, del);
-  wrapper.appendChild(row);
-
-  const subtaskList = document.createElement("div");
-  subtaskList.className = "pl-8 pr-2 space-y-1";
-  subtasks.forEach((s) => subtaskList.appendChild(subtaskRow(s)));
-  wrapper.appendChild(subtaskList);
-
-  const addSubtaskForm = document.createElement("form");
-  addSubtaskForm.className = "pl-8 pr-2 pb-1.5";
-  addSubtaskForm.innerHTML = `<input type="text" placeholder="+ Add subtask" class="w-full text-xs bg-transparent placeholder:text-gray-400 focus:outline-none text-gray-600 dark:text-gray-300" />`;
-  addSubtaskForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const input = addSubtaskForm.querySelector("input");
-    const title = input.value.trim();
-    if (!title) return;
-    const { data, error } = await supabase
-      .from("todo_subtasks")
-      .insert({ todo_id: todo.id, title })
-      .select()
-      .single();
-    if (!error) {
-      subtaskList.appendChild(subtaskRow(data));
-      input.value = "";
-    }
-  });
-  wrapper.appendChild(addSubtaskForm);
-
-  return wrapper;
-}
-
-function subtaskRow(subtask) {
-  const row = document.createElement("div");
-  row.className = "flex items-center gap-2 group";
-
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.checked = subtask.done;
-  checkbox.className = "w-3.5 h-3.5 accent-black dark:accent-white shrink-0";
-  checkbox.addEventListener("change", async () => {
-    await supabase.from("todo_subtasks").update({ done: checkbox.checked }).eq("id", subtask.id);
-    subtask.done = checkbox.checked;
-    title.classList.toggle("line-through", subtask.done);
-    title.classList.toggle("text-gray-400", subtask.done);
-  });
-
-  const title = document.createElement("span");
-  title.textContent = subtask.title;
-  title.className = `flex-1 text-xs ${subtask.done ? "line-through text-gray-400" : "text-gray-600 dark:text-gray-300"}`;
-
-  const del = document.createElement("button");
-  del.type = "button";
-  del.textContent = "×";
-  del.className = "text-xs text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shrink-0";
-  del.addEventListener("click", async () => {
-    await supabase.from("todo_subtasks").delete().eq("id", subtask.id);
-    row.remove();
-  });
-
-  row.append(checkbox, title, del);
-  return row;
-}
-
-function startEdit(titleEl, todo) {
-  const input = document.createElement("input");
-  input.type = "text";
-  input.value = todo.title;
-  input.className = "flex-1 text-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded px-1 py-0.5 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white";
-
-  async function save() {
-    const value = input.value.trim();
-    if (value && value !== todo.title) {
-      await supabase.from("todos").update({ title: value }).eq("id", todo.id);
-      todo.title = value;
-    }
-    titleEl.textContent = todo.title;
-    input.replaceWith(titleEl);
-  }
-
-  input.addEventListener("blur", save);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") input.blur();
-    if (e.key === "Escape") {
-      input.value = todo.title;
-      input.blur();
-    }
-  });
-
-  titleEl.replaceWith(input);
-  input.focus();
+  todos.forEach((todo) =>
+    todoList.appendChild(renderTodoRow(todo, subtasksByTodo.get(todo.id) ?? [], { belongsInView })),
+  );
 }
 
 addForm.addEventListener("submit", async (e) => {
@@ -369,7 +341,9 @@ async function refreshAuthUI() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session) {
+  // A password-recovery link also establishes a session, but that shouldn't
+  // drop the user straight into the app — they need to set a new password first.
+  if (session && !isRecoveryFlow) {
     authSection.classList.add("hidden");
     appSection.classList.remove("hidden");
     todoDateInput.value = toISODate(selectedDate);
@@ -381,5 +355,11 @@ async function refreshAuthUI() {
   }
 }
 
-supabase.auth.onAuthStateChange(() => refreshAuthUI());
+supabase.auth.onAuthStateChange((event) => {
+  if (event === "PASSWORD_RECOVERY") {
+    isRecoveryFlow = true;
+    setAuthMode("recovery");
+  }
+  refreshAuthUI();
+});
 refreshAuthUI();

@@ -11,10 +11,20 @@
     </nav>
 
     <div class="flex items-center gap-1">
-      <span id="nav-user" class="hidden inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mr-1">
-        Hi, <span id="nav-user-name" class="font-medium text-gray-900 dark:text-white"></span>
-        <button id="nav-logout" type="button" class="nav-link px-2 py-1">Log out</button>
-      </span>
+      <div id="nav-user" class="hidden relative">
+        <button id="nav-profile-btn" type="button" class="icon-btn" aria-label="Account menu">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+        </button>
+
+        <div id="nav-profile-menu" class="hidden absolute right-0 top-full mt-1 w-48 rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg py-1 z-50">
+          <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-800">
+            <p id="nav-profile-fullname" class="text-sm font-medium text-gray-900 dark:text-white"></p>
+            <p id="nav-profile-username" class="text-xs text-gray-500 dark:text-gray-400"></p>
+          </div>
+          <a href="/settings.html" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Settings</a>
+          <button id="nav-logout" type="button" class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Log out</button>
+        </div>
+      </div>
 
       <button id="theme-toggle" type="button" class="icon-btn" aria-label="Toggle dark mode">
         <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>

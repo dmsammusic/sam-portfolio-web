@@ -44,7 +44,12 @@ Run these in order in the **SQL Editor**, pasting each file's contents in and cl
    logged in, plus the trigger that creates a profile automatically at sign-up.
 3. `supabase/todo_subtasks_schema.sql` — the per-todo checklist shown under each todo on the
    Todo List page.
-4. (Later, when you're ready to build the Task Manager) `supabase/task_manager_schema.sql`.
+4. `supabase/settings_schema.sql` — date/time format preferences on `profiles`, plus the
+   username-to-email lookup that lets the login form accept a username instead of email.
+5. `supabase/dob_schema.sql` — adds date of birth, collected at sign-up.
+6. `supabase/task_manager_schema.sql` — statuses/tags/people/projects/teams/tasks/saved_views for
+   the Task Manager Kanban board at `/task-manager.html` (unlinked from the public nav — reach it
+   by URL).
 
 Each of these files both creates its tables/policies **and** grants the `authenticated` role
 access to them — RLS policies alone aren't enough; Postgres blocks the query before RLS is even

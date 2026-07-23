@@ -10,6 +10,8 @@ import {
   formatShort,
   formatDay,
 } from "./date-utils.js";
+import { renderTodoRow } from "./todo-row.js";
+import { getProfile } from "./profile.js";
 
 const signedOutMessage = document.getElementById("signed-out-message");
 const app = document.getElementById("insights-app");
@@ -30,6 +32,7 @@ let currentRange = "last7"; // "last7" | "week" | "month" | "custom"
 let refDate = new Date();
 let customFrom = null;
 let customTo = null;
+let dateFormat = "us"; // the signed-in user's date_format preference
 
 function rangeFor() {
   switch (currentRange) {
@@ -59,7 +62,7 @@ function shiftRef(direction) {
 function rangeLabel() {
   const [start, end] = rangeFor();
   if (currentRange === "month") return refDate.toLocaleDateString(undefined, { month: "long", year: "numeric" });
-  return `${formatShort(start)} – ${formatShort(end)}`;
+  return `${formatShort(start, dateFormat)} – ${formatShort(end, dateFormat)}`;
 }
 
 rangeTabs.forEach((tab) => {
@@ -90,6 +93,12 @@ document.getElementById("range-next").addEventListener("click", () => {
   load();
 });
 
+function belongsInView(todo) {
+  const [start, end] = rangeFor();
+  const d = parseISODate(todo.date);
+  return d >= start && d <= end;
+}
+
 async function load() {
   const {
     data: { session },
@@ -99,7 +108,7 @@ async function load() {
   const [start, end] = rangeFor();
   rangeLabelEl.textContent = rangeLabel();
 
-  const { data, error } = await supabase
+  const { data: todos, error } = await supabase
     .from("todos")
     .select("*")
     .eq("user_id", session.user.id)
@@ -113,10 +122,27 @@ async function load() {
     return;
   }
 
-  render(data ?? []);
+  const todoIds = (todos ?? []).map((t) => t.id);
+  let subtasksByTodo = new Map();
+
+  if (todoIds.length > 0) {
+    const { data: subtasks } = await supabase
+      .from("todo_subtasks")
+      .select("*")
+      .in("todo_id", todoIds)
+      .order("created_at", { ascending: true });
+
+    subtasksByTodo = (subtasks ?? []).reduce((map, s) => {
+      if (!map.has(s.todo_id)) map.set(s.todo_id, []);
+      map.get(s.todo_id).push(s);
+      return map;
+    }, new Map());
+  }
+
+  render(todos ?? [], subtasksByTodo);
 }
 
-function render(todos) {
+function render(todos, subtasksByTodo) {
   const completed = todos.filter((t) => t.done).length;
   statCreated.textContent = todos.length;
   statCompleted.textContent = completed;
@@ -138,23 +164,16 @@ function render(todos) {
     const header = document.createElement("div");
     header.className = "flex items-baseline justify-between mb-2";
     header.innerHTML = `
-      <h3 class="text-sm font-semibold text-gray-900 dark:text-white">${formatDay(parseISODate(date))}</h3>
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-white">${formatDay(parseISODate(date), dateFormat)}</h3>
       <span class="text-xs text-gray-400 dark:text-gray-500">${done}/${items.length} done</span>
     `;
     group.appendChild(header);
 
     const list = document.createElement("div");
     list.className = "space-y-1";
-    items.forEach((todo) => {
-      const row = document.createElement("div");
-      row.className = "flex items-center gap-2 px-2 py-1";
-      row.innerHTML = `
-        <span class="w-4 h-4 rounded-sm border ${todo.done ? "bg-black dark:bg-white border-black dark:border-white" : "border-gray-300 dark:border-gray-600"} shrink-0"></span>
-        <span class="flex-1 text-sm ${todo.done ? "line-through text-gray-400" : "text-gray-800 dark:text-gray-100"}"></span>
-      `;
-      row.querySelector("span:last-child").textContent = todo.title;
-      list.appendChild(row);
-    });
+    items.forEach((todo) =>
+      list.appendChild(renderTodoRow(todo, subtasksByTodo.get(todo.id) ?? [], { belongsInView })),
+    );
     group.appendChild(list);
 
     todoGroups.appendChild(group);
@@ -169,6 +188,8 @@ async function refreshAuthUI() {
   if (session) {
     signedOutMessage.classList.add("hidden");
     app.classList.remove("hidden");
+    const profile = await getProfile();
+    dateFormat = profile?.date_format ?? "us";
     load();
   } else {
     signedOutMessage.classList.remove("hidden");

@@ -1,10 +1,31 @@
 import { supabase } from "./supabase-client.js";
+import { getProfile } from "./profile.js";
 
 const navUser = document.getElementById("nav-user");
-const navUserName = document.getElementById("nav-user-name");
+const navProfileBtn = document.getElementById("nav-profile-btn");
+const navProfileMenu = document.getElementById("nav-profile-menu");
+const navProfileFullname = document.getElementById("nav-profile-fullname");
+const navProfileUsername = document.getElementById("nav-profile-username");
 const navLogout = document.getElementById("nav-logout");
 
 navLogout?.addEventListener("click", () => supabase.auth.signOut());
+
+function closeProfileMenu() {
+  navProfileMenu?.classList.add("hidden");
+  document.removeEventListener("click", onDocClick);
+}
+
+function onDocClick(e) {
+  if (!navUser?.contains(e.target)) closeProfileMenu();
+}
+
+navProfileBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const wasHidden = navProfileMenu.classList.contains("hidden");
+  navProfileMenu.classList.toggle("hidden");
+  if (wasHidden) document.addEventListener("click", onDocClick);
+  else document.removeEventListener("click", onDocClick);
+});
 
 const toast = document.getElementById("onboarding-toast");
 const toastOpen = document.getElementById("onboarding-toast-open");
@@ -21,13 +42,15 @@ const cancelBtn = document.getElementById("onboarding-cancel");
 
 const DISMISS_KEY = "onboarding-toast-dismissed";
 
-function showNavUser(firstName) {
-  navUserName.textContent = firstName;
+function showNavUser(profile) {
+  navProfileFullname.textContent = `${profile.first_name} ${profile.last_name}`;
+  navProfileUsername.textContent = `@${profile.username}`;
   navUser.classList.remove("hidden");
 }
 
 function hideNavUser() {
   navUser.classList.add("hidden");
+  closeProfileMenu();
 }
 
 function openModal() {
@@ -116,7 +139,7 @@ form?.addEventListener("submit", async (e) => {
 
   closeModal();
   sessionStorage.removeItem(DISMISS_KEY);
-  showNavUser(firstName);
+  showNavUser({ first_name: firstName, last_name: lastName, username });
 });
 
 async function refreshUserNav() {
@@ -132,14 +155,10 @@ async function refreshUserNav() {
     return;
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("first_name")
-    .eq("id", session.user.id)
-    .maybeSingle();
+  const profile = await getProfile();
 
   if (profile) {
-    showNavUser(profile.first_name);
+    showNavUser(profile);
     toast?.classList.add("hidden");
   } else {
     hideNavUser();

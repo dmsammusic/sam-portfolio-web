@@ -39,14 +39,36 @@ export function endOfMonth(d) {
   return new Date(d.getFullYear(), d.getMonth() + 1, 0);
 }
 
-export function formatShort(d) {
-  return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+// `format` is the user's stored date_format preference ("us" | "intl") — "us" reads
+// Month Day ("Jul 22"), "intl" reads Day Month ("22 Jul"). Using en-US/en-GB gets that
+// ordering from Intl directly rather than hand-building format strings ourselves; both
+// stay in English, this isn't a translation switch.
+export function formatShort(d, format = "us") {
+  return d.toLocaleDateString(format === "intl" ? "en-GB" : "en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
 }
 
-export function formatDay(d) {
-  return d.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+export function formatDay(d, format = "us") {
+  return d.toLocaleDateString(format === "intl" ? "en-GB" : "en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export function isSameDay(a, b) {
   return toISODate(a) === toISODate(b);
+}
+
+// `today` defaults to now but can be passed explicitly for testability.
+export function calculateAge(dateOfBirth, today = new Date()) {
+  let age = today.getFullYear() - dateOfBirth.getFullYear();
+  const hasHadBirthdayThisYear =
+    today.getMonth() > dateOfBirth.getMonth() ||
+    (today.getMonth() === dateOfBirth.getMonth() && today.getDate() >= dateOfBirth.getDate());
+  if (!hasHadBirthdayThisYear) age -= 1;
+  return age;
 }

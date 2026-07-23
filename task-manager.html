@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager — Sam M</title>
+    <meta name="description" content="A single-user Kanban board for tracking work by status, project, team, and week." />
+    <!-- @include "partials/theme-init.html" -->
+    <link rel="stylesheet" href="/src/css/main.css" />
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col">
+    <!-- @include "partials/header.html" -->
+
+    <main class="flex-1 max-w-[1400px] mx-auto px-4 sm:px-6 pb-20 w-full">
+      <div class="pt-8 pb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Task Manager</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Kanban board for tracking work by status, project, team, and week.</p>
+      </div>
+
+      <div id="signed-out-message" class="hidden rounded-lg border border-gray-200 dark:border-gray-800 p-6 text-sm text-gray-600 dark:text-gray-300">
+        Log in on the <a href="/todo.html" class="nav-link px-1">Todo List</a> to use the Task Manager.
+      </div>
+
+      <div id="tm-app" class="hidden">
+        <!-- SAVED VIEWS -->
+        <div class="flex items-end gap-2 flex-wrap mb-3">
+          <div>
+            <label for="tm-view-select" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Saved view</label>
+            <select id="tm-view-select" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">— none —</option>
+            </select>
+          </div>
+          <button id="tm-view-default" type="button" class="nav-link border border-gray-200 dark:border-gray-800 text-sm">☆ Set default</button>
+          <button id="tm-view-delete" type="button" class="nav-link border border-gray-200 dark:border-gray-800 text-sm">Delete view</button>
+          <div class="flex-1"></div>
+          <input id="tm-view-name" type="text" placeholder="Save current filters as…" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          <button id="tm-view-save" type="button" class="btn-primary text-sm">Save view</button>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-3 mb-4 flex items-end gap-3 flex-wrap">
+          <div>
+            <label for="tm-filter-status" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+            <select id="tm-filter-status" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">Any</option>
+            </select>
+          </div>
+          <div>
+            <label for="tm-filter-project" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Project</label>
+            <select id="tm-filter-project" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">Any</option>
+            </select>
+          </div>
+          <div>
+            <label for="tm-filter-assignee" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Assignee</label>
+            <select id="tm-filter-assignee" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">Any</option>
+            </select>
+          </div>
+          <div>
+            <label for="tm-filter-tag" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tag</label>
+            <select id="tm-filter-tag" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">Any</option>
+            </select>
+          </div>
+          <div>
+            <label for="tm-filter-week" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Week of</label>
+            <input id="tm-filter-week" type="date" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          </div>
+          <div>
+            <label for="tm-filter-from" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Due from</label>
+            <input id="tm-filter-from" type="date" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          </div>
+          <div>
+            <label for="tm-filter-to" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Due to</label>
+            <input id="tm-filter-to" type="date" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          </div>
+          <button id="tm-filter-clear" type="button" class="nav-link border border-gray-200 dark:border-gray-800 text-sm">Clear filters</button>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="flex items-center gap-2 mb-4">
+          <button id="tm-new-task" type="button" class="btn-primary text-sm">+ New task</button>
+          <button id="tm-manage-toggle" type="button" class="nav-link border border-gray-200 dark:border-gray-800 text-sm">Manage lists</button>
+        </div>
+
+        <!-- MANAGE LISTS -->
+        <div id="tm-manage-panel" class="hidden rounded-lg border border-gray-200 dark:border-gray-800 p-4 mb-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Tags</h3>
+            <div id="tm-list-tags" class="flex flex-wrap gap-1 mb-2"></div>
+            <form data-list="tags" class="tm-add-form flex gap-1">
+              <input type="text" placeholder="New tag" class="flex-1 min-w-0 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+              <button type="submit" class="btn-primary text-xs px-2">Add</button>
+            </form>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">People</h3>
+            <div id="tm-list-people" class="flex flex-wrap gap-1 mb-2"></div>
+            <form data-list="people" class="tm-add-form flex gap-1">
+              <input type="text" placeholder="New person" class="flex-1 min-w-0 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+              <button type="submit" class="btn-primary text-xs px-2">Add</button>
+            </form>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Projects</h3>
+            <div id="tm-list-projects" class="flex flex-wrap gap-1 mb-2"></div>
+            <form data-list="projects" class="tm-add-form flex gap-1">
+              <input type="text" placeholder="New project" class="flex-1 min-w-0 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+              <button type="submit" class="btn-primary text-xs px-2">Add</button>
+            </form>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Teams</h3>
+            <div id="tm-list-teams" class="flex flex-wrap gap-1 mb-2"></div>
+            <form data-list="teams" class="tm-add-form flex gap-1">
+              <input type="text" placeholder="New team" class="flex-1 min-w-0 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+              <button type="submit" class="btn-primary text-xs px-2">Add</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- BOARD -->
+        <div id="tm-board" class="flex gap-4 overflow-x-auto pb-4"></div>
+      </div>
+    </main>
+
+    <!-- TASK DETAIL MODAL -->
+    <div id="tm-task-modal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+        <h2 id="tm-modal-title" class="text-lg font-bold text-gray-900 dark:text-white mb-4">New task</h2>
+        <form id="tm-task-form" class="space-y-3">
+          <div>
+            <label for="tm-task-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+            <input id="tm-task-title" type="text" required class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          </div>
+          <div>
+            <label for="tm-task-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+            <textarea id="tm-task-description" rows="3" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="tm-task-status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+              <select id="tm-task-status" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"></select>
+            </div>
+            <div>
+              <label for="tm-task-priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
+              <select id="tm-task-priority" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="tm-task-project" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project</label>
+              <select id="tm-task-project" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+                <option value="">None</option>
+              </select>
+            </div>
+            <div>
+              <label for="tm-task-team" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Team</label>
+              <select id="tm-task-team" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+                <option value="">None</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="tm-task-assignee" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assignee</label>
+            <select id="tm-task-assignee" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">Unassigned</option>
+            </select>
+          </div>
+          <div>
+            <span class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tags</span>
+            <div id="tm-task-tags" class="flex flex-wrap gap-2"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="tm-task-due" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due date</label>
+              <input id="tm-task-due" type="date" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+            </div>
+            <div>
+              <label for="tm-task-week" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Week</label>
+              <input id="tm-task-week" type="date" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Snaps to that week's Monday.</p>
+            </div>
+          </div>
+          <div>
+            <label for="tm-task-blocked" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Blocked</label>
+            <select id="tm-task-blocked" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white">
+              <option value="">Not blocked</option>
+              <option value="needs_clarification">Needs clarification</option>
+              <option value="tech_difficulty">Tech difficulty</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div id="tm-task-blocked-notes-field">
+            <label for="tm-task-blocked-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Blocked notes</label>
+            <textarea id="tm-task-blocked-notes" rows="2" class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"></textarea>
+          </div>
+
+          <div class="flex gap-2 pt-2">
+            <button type="submit" class="btn-primary flex-1">Save</button>
+            <button id="tm-task-delete" type="button" class="hidden text-sm text-red-500 px-3">Delete</button>
+            <button id="tm-task-cancel" type="button" class="nav-link">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- @include "partials/footer.html" -->
+    <!-- @include "partials/onboarding-modal.html" -->
+
+    <script type="module" src="/src/js/analytics.js"></script>
+    <script type="module" src="/src/js/nav.js"></script>
+    <script type="module" src="/src/js/theme.js"></script>
+    <script type="module" src="/src/js/user-nav.js"></script>
+    <script type="module" src="/src/js/task-manager.js"></script>
+  </body>
+</html>
