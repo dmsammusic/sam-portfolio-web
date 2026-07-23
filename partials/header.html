@@ -11,6 +11,11 @@
     </nav>
 
     <div class="flex items-center gap-1">
+      <span id="nav-user" class="hidden inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mr-1">
+        Hi, <span id="nav-user-name" class="font-medium text-gray-900 dark:text-white"></span>
+        <button id="nav-logout" type="button" class="nav-link px-2 py-1">Log out</button>
+      </span>
+
       <button id="theme-toggle" type="button" class="icon-btn" aria-label="Toggle dark mode">
         <svg class="w-5 h-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>

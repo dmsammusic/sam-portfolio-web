@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List — Sam M</title>
+    <meta name="description" content="A day-based todo list with weekly and monthly summary views." />
+    <!-- @include "partials/theme-init.html" -->
+    <link rel="stylesheet" href="/src/css/main.css" />
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col">
+    <!-- @include "partials/header.html" -->
+
+    <main class="flex-1 max-w-2xl mx-auto px-4 sm:px-6 pb-20 w-full">
+      <div class="pt-8 pb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Todo List</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Day-based todos — nothing is ever deleted automatically.</p>
+      </div>
+
+      <!-- AUTH -->
+      <div id="auth-section" class="rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+        <div class="inline-flex rounded-md border border-gray-200 dark:border-gray-800 p-0.5 mb-4">
+          <button id="auth-tab-login" type="button" class="nav-link" data-active="true">Log in</button>
+          <button id="auth-tab-signup" type="button" class="nav-link">Sign up</button>
+        </div>
+
+        <form id="auth-form" class="space-y-3">
+          <div id="signup-fields" class="hidden space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="auth-first-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First name</label>
+                <input
+                  id="auth-first-name"
+                  type="text"
+                  autocomplete="given-name"
+                  class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+                />
+              </div>
+              <div>
+                <label for="auth-last-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last name</label>
+                <input
+                  id="auth-last-name"
+                  type="text"
+                  autocomplete="family-name"
+                  class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+                />
+              </div>
+            </div>
+            <div>
+              <label for="auth-username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+              <input
+                id="auth-username"
+                type="text"
+                autocomplete="username"
+                minlength="4"
+                class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+              />
+              <p id="username-status" class="text-xs mt-1"></p>
+            </div>
+          </div>
+
+          <div>
+            <label for="auth-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+            <input
+              id="auth-email"
+              type="email"
+              required
+              autocomplete="email"
+              class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+            />
+          </div>
+          <div>
+            <label for="auth-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+            <input
+              id="auth-password"
+              type="password"
+              required
+              minlength="6"
+              autocomplete="current-password"
+              class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+            />
+          </div>
+
+          <p id="auth-message" class="hidden text-sm"></p>
+
+          <button id="auth-submit" type="submit" class="w-full btn-primary">Log in</button>
+        </form>
+      </div>
+
+      <!-- APP (shown once logged in) -->
+      <div id="app-section" class="hidden">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Plan your day.</p>
+          <a href="/insights.html" class="nav-link">Insights →</a>
+        </div>
+
+        <!-- ADD TODO -->
+        <form id="add-form" class="flex gap-2 flex-wrap items-end mb-6">
+          <div class="flex-1 min-w-[10rem]">
+            <label for="todo-title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">New todo</label>
+            <input
+              id="todo-title"
+              type="text"
+              placeholder="What do you need to do?"
+              required
+              class="w-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+            />
+          </div>
+          <div>
+            <label for="todo-date" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Date</label>
+            <input
+              id="todo-date"
+              type="date"
+              required
+              class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+            />
+          </div>
+          <button type="submit" class="btn-primary">Add</button>
+        </form>
+
+        <!-- DATE STRIP -->
+        <div class="flex items-center gap-1 mb-4">
+          <button id="strip-prev" type="button" class="icon-btn shrink-0" aria-label="Previous week">←</button>
+          <div id="date-strip" class="flex-1 grid grid-cols-7 gap-1"></div>
+          <button id="strip-next" type="button" class="icon-btn shrink-0" aria-label="Next week">→</button>
+        </div>
+
+        <!-- STATUS TABS -->
+        <div class="inline-flex rounded-md border border-gray-200 dark:border-gray-800 p-0.5 mb-4">
+          <button class="nav-link status-tab" data-status="pending" data-active="true">Pending</button>
+          <button class="nav-link status-tab" data-status="completed">Completed</button>
+        </div>
+
+        <div id="todo-list" class="space-y-2"></div>
+        <p id="todo-empty" class="hidden text-sm text-gray-500 dark:text-gray-400 text-center py-12">
+          Nothing here yet.
+        </p>
+      </div>
+    </main>
+
+    <!-- @include "partials/footer.html" -->
+    <!-- @include "partials/onboarding-modal.html" -->
+
+    <script type="module" src="/src/js/nav.js"></script>
+    <script type="module" src="/src/js/theme.js"></script>
+    <script type="module" src="/src/js/user-nav.js"></script>
+    <script type="module" src="/src/js/todo.js"></script>
+  </body>
+</html>

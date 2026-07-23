@@ -25,4 +25,20 @@
   .btn-primary {
     @apply px-4 py-2 rounded-md bg-black text-white text-sm font-medium hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors;
   }
+
+  .date-day {
+    @apply flex flex-col items-center gap-0.5 rounded-md py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer;
+  }
+
+  .date-day[data-today="true"] .date-day-num {
+    @apply text-black dark:text-white;
+  }
+
+  .date-day[data-active="true"] {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  .date-day[data-active="true"] .date-day-num {
+    @apply text-black dark:text-white;
+  }
 }

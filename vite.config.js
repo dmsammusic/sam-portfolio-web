@@ -42,6 +42,8 @@ export default defineConfig({
         main: resolve(root, "index.html"),
         portfolio: resolve(root, "portfolio.html"),
         keygen: resolve(root, "keygen.html"),
+        todo: resolve(root, "todo.html"),
+        insights: resolve(root, "insights.html"),
         timeCalculator: resolve(root, "time-calculator.html"),
         jsonFormattor: resolve(root, "json-formattor.html"),
         blog: resolve(root, "blog.html"),

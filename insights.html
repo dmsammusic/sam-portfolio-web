@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insights — Sam M</title>
+    <meta name="description" content="Todo history — completed and pending tasks over the last 7 days, a week, a month, or a custom range." />
+    <!-- @include "partials/theme-init.html" -->
+    <link rel="stylesheet" href="/src/css/main.css" />
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col">
+    <!-- @include "partials/header.html" -->
+
+    <main class="flex-1 max-w-2xl mx-auto px-4 sm:px-6 pb-20 w-full">
+      <div class="pt-8 pb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Insights</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Your todo history — nothing here is ever deleted.</p>
+      </div>
+
+      <div id="signed-out-message" class="hidden rounded-lg border border-gray-200 dark:border-gray-800 p-6 text-sm text-gray-600 dark:text-gray-300">
+        Log in on the <a href="/todo.html" class="nav-link px-1">Todo List</a> to see your insights.
+      </div>
+
+      <div id="insights-app" class="hidden">
+        <div class="inline-flex rounded-md border border-gray-200 dark:border-gray-800 p-0.5 mb-4 flex-wrap">
+          <button class="nav-link range-tab" data-range="last7" data-active="true">Last 7 Days</button>
+          <button class="nav-link range-tab" data-range="week">Week</button>
+          <button class="nav-link range-tab" data-range="month">Month</button>
+          <button class="nav-link range-tab" data-range="custom">Custom</button>
+        </div>
+
+        <div id="custom-range" class="hidden flex gap-2 items-end flex-wrap mb-4">
+          <div>
+            <label for="from-date" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">From</label>
+            <input id="from-date" type="date" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          </div>
+          <div>
+            <label for="to-date" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">To</label>
+            <input id="to-date" type="date" class="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white" />
+          </div>
+          <button id="apply-custom" type="button" class="btn-primary">Apply</button>
+        </div>
+
+        <div id="range-nav" class="flex items-center gap-1 mb-6">
+          <button id="range-prev" type="button" class="icon-btn" aria-label="Previous">←</button>
+          <span id="range-label" class="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"></span>
+          <button id="range-next" type="button" class="icon-btn" aria-label="Next">→</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-4 text-center">
+            <p id="stat-created" class="text-2xl font-bold text-gray-900 dark:text-white">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Created</p>
+          </div>
+          <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-4 text-center">
+            <p id="stat-completed" class="text-2xl font-bold text-gray-900 dark:text-white">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Completed</p>
+          </div>
+          <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-4 text-center">
+            <p id="stat-pending" class="text-2xl font-bold text-gray-900 dark:text-white">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Pending</p>
+          </div>
+        </div>
+
+        <div id="todo-groups" class="space-y-6"></div>
+        <p id="todo-empty" class="hidden text-sm text-gray-500 dark:text-gray-400 text-center py-12">
+          Nothing in this range.
+        </p>
+      </div>
+    </main>
+
+    <!-- @include "partials/footer.html" -->
+    <!-- @include "partials/onboarding-modal.html" -->
+
+    <script type="module" src="/src/js/nav.js"></script>
+    <script type="module" src="/src/js/theme.js"></script>
+    <script type="module" src="/src/js/user-nav.js"></script>
+    <script type="module" src="/src/js/insights.js"></script>
+  </body>
+</html>

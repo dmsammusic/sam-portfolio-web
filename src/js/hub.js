@@ -2,6 +2,7 @@ const ICONS = {
   key: `<circle cx="7" cy="15" r="4"/><path d="M10 12l8-8M15 4l2 2M18 7l2 2"/>`,
   clock: `<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>`,
   braces: `<path d="M8 3a3 3 0 0 0-3 3v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3a3 3 0 0 0 3 3"/><path d="M16 3a3 3 0 0 1 3 3v3a2 2 0 0 0 2 2 2 2 0 0 0-2 2v3a3 3 0 0 1-3 3"/>`,
+  checklist: `<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M7.5 9.5l1.5 1.5 2.5-2.5M7.5 15.5l1.5 1.5 2.5-2.5"/><path d="M14 9.5h4M14 15.5h4"/>`,
 };
 
 const TOOLS = [
@@ -25,6 +26,13 @@ const TOOLS = [
     tags: ["json", "format", "dev", "editor", "validate", "minify"],
     href: "/json-formattor.html",
     icon: "braces",
+  },
+  {
+    name: "Todo List",
+    description: "A day-based todo list with weekly and monthly summary views. Requires login.",
+    tags: ["todo", "tasks", "login", "planner", "checklist"],
+    href: "/todo.html",
+    icon: "checklist",
   },
 ];
 
