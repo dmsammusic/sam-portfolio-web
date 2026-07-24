@@ -94,6 +94,11 @@ HTML. Vite's build still dedupes modules shared across multiple entries into one
   **Adding a tool means updating three places**: this array, the `rollupOptions.input` entry in
   `vite.config.js`, and the actual page. Settings and Insights are deliberately **not** hub
   tiles — they're reached only from the profile dropdown / the Todo List page, not the tool grid.
+  Task Manager is the one exception: `hub.js` imports the shared Supabase client and checks
+  `getSession()`/`onAuthStateChange()` itself (the only async/auth-aware code in this file) to
+  conditionally append a Task Manager tool object ahead of the base array, so its tile only shows
+  to logged-in visitors — logged-out visitors see the same four tiles as everyone else. This is
+  the single seam for that gating; don't duplicate the auth check elsewhere for this purpose.
 - `keygen.js`, `time-calculator.js` — per-tool logic, loaded only on their own page.
 - `todo.js`, `insights.js` — the Todo List and Insights pages; both render todo rows via the
   shared `todo-row.js` module (see Auth & data section) rather than each having their own
@@ -224,9 +229,11 @@ oversight.
 `task-manager.html` / `src/js/task-manager.js` is a single-user Kanban board — statuses are
 customizable columns, tasks are cards, backed by the six tables in `task_manager_schema.sql`
 (`statuses`, `tags`, `people`, `projects`, `teams`, `tasks`, `task_tags`, `saved_views`). It's
-gated by the same Supabase session as everything else but **deliberately unlinked** from the Tools
-hub and primary nav — reachable only if you know the URL, since it's for one person's own use, not
-a public feature.
+gated by the same Supabase session as everything else, and — unlike Settings/Insights — it **does**
+appear as a Tools hub tile, but only when `hub.js` detects an active session; logged-out visitors
+don't see it and it's still unlinked from primary nav. "Single-user" is a convention enforced by RLS
+scoping every table to `auth.uid()`, not a hardcoded owner check — any authenticated session sees
+their own board, the same access model as Todo List/Insights.
 
 - **Every Supabase call for this page goes through `src/js/task-manager-data.js`** — this is the
   one deliberate exception to the rest of this codebase's convention of inlining
