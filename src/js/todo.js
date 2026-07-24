@@ -158,12 +158,19 @@ authForm.addEventListener("submit", async (e) => {
 
   if (authMode === "login") {
     // "identifier" may be an email or a username — resolve a username to its
-    // email first, since Supabase Auth's sign-in only accepts email/phone.
-    // An unknown username resolves to null, which signInWithPassword rejects
-    // with the same generic invalid-credentials error a wrong password would,
-    // so this can't be used to tell whether a username exists.
+    // email first, since Supabase Auth's sign-in only accepts email/phone. An
+    // unknown username resolves to null; passing that straight to
+    // signInWithPassword would send a non-email string and get back a
+    // *different* error (invalid email format) than a real wrong-password
+    // attempt does, which would let this be used to tell whether a username
+    // exists. Show the exact same generic message ourselves instead of ever
+    // making that call.
     const email = await resolveEmailForLogin(identifier);
-    const { error } = await supabase.auth.signInWithPassword({ email: email ?? identifier, password });
+    if (!email) {
+      showMessage("Invalid login credentials");
+      return;
+    }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) showMessage(error.message);
     return;
   }

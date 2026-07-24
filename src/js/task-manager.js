@@ -1,6 +1,7 @@
 import { supabase } from "./supabase-client.js";
 import { toISODate, parseISODate, startOfWeek } from "./date-utils.js";
 import * as tm from "./task-manager-data.js";
+import { createDismissibleMenu } from "./dismissible-menu.js";
 
 // ---- DOM refs ----
 
@@ -119,10 +120,10 @@ function renderViewSelect() {
 // ---- manage lists panel (tags/people/projects/teams) ----
 
 const MANAGE_TABLES = {
-  tags: { list: () => tags, container: "tm-list-tags", update: tm.updateTag, del: tm.deleteTag },
-  people: { list: () => people, container: "tm-list-people", update: tm.updatePerson, del: tm.deletePerson },
-  projects: { list: () => projects, container: "tm-list-projects", update: tm.updateProject, del: tm.deleteProject },
-  teams: { list: () => teams, container: "tm-list-teams", update: tm.updateTeam, del: tm.deleteTeam },
+  tags: { list: () => tags, container: "tm-list-tags", create: tm.createTag, update: tm.updateTag, del: tm.deleteTag },
+  people: { list: () => people, container: "tm-list-people", create: tm.createPerson, update: tm.updatePerson, del: tm.deletePerson },
+  projects: { list: () => projects, container: "tm-list-projects", create: tm.createProject, update: tm.updateProject, del: tm.deleteProject },
+  teams: { list: () => teams, container: "tm-list-teams", create: tm.createTeam, update: tm.updateTeam, del: tm.deleteTeam },
 };
 
 function renderManagePanel() {
@@ -151,8 +152,7 @@ function renderManageChip(key, item, cfg) {
       const value = input.value.trim();
       if (value && value !== item.name) {
         await cfg.update(item.id, { name: value });
-        await loadLists();
-        await loadTasks();
+        await refreshBoard(); // task cards may show this item's name (assignee, project, ...)
       } else {
         renderManagePanel();
       }
@@ -169,8 +169,7 @@ function renderManageChip(key, item, cfg) {
   del.className = "text-red-500";
   del.addEventListener("click", async () => {
     await cfg.del(item.id);
-    await loadLists();
-    await loadTasks();
+    await refreshBoard();
   });
 
   chip.append(name, del);
@@ -183,9 +182,7 @@ document.querySelectorAll(".tm-add-form").forEach((form) => {
     const input = form.querySelector("input");
     const name = input.value.trim();
     if (!name) return;
-    const table = form.dataset.list;
-    const create = { tags: tm.createTag, people: tm.createPerson, projects: tm.createProject, teams: tm.createTeam }[table];
-    await create({ name });
+    await MANAGE_TABLES[form.dataset.list].create({ name });
     input.value = "";
     await loadLists();
   });
@@ -264,6 +261,14 @@ async function loadTasks() {
   renderBoard(tasks);
 }
 
+// Most mutations here (renaming/deleting a manageable-list item, adding a status
+// or a task) can change both the lists and what the board should show — this is
+// the one place that reload, instead of every call site pairing them up itself.
+async function refreshBoard() {
+  await loadLists();
+  await loadTasks();
+}
+
 const PRIORITY_LABEL = { low: "Low", medium: "Medium", high: "High", urgent: "Urgent" };
 const PRIORITY_COLOR = { low: "text-gray-400", medium: "text-gray-600 dark:text-gray-300", high: "text-orange-500", urgent: "text-red-500" };
 const BLOCKED_LABEL = { needs_clarification: "Needs clarification", tech_difficulty: "Tech difficulty", other: "Blocked" };
@@ -326,45 +331,29 @@ function renderColumn(status, columnTasks, index) {
     <button type="button" data-action="right" class="w-full text-left px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Move right</button>
     <button type="button" data-action="delete" class="w-full text-left px-3 py-1.5 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800">Delete</button>
   `;
-  function closeMenu() {
-    menu.classList.add("hidden");
-    document.removeEventListener("click", onDocClick);
-  }
-  function onDocClick(e) {
-    if (!kebabWrap.contains(e.target)) closeMenu();
-  }
-  kebabBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const wasHidden = menu.classList.contains("hidden");
-    menu.classList.toggle("hidden");
-    if (wasHidden) document.addEventListener("click", onDocClick);
-    else document.removeEventListener("click", onDocClick);
-  });
+  const columnMenu = createDismissibleMenu(kebabWrap, kebabBtn, menu);
   menu.querySelector('[data-action="left"]').addEventListener("click", async () => {
-    closeMenu();
+    columnMenu.close();
     if (index > 0) {
       const ids = statuses.map((s) => s.id);
       [ids[index - 1], ids[index]] = [ids[index], ids[index - 1]];
       await tm.reorderStatuses(ids);
-      await loadLists();
-      await loadTasks();
+      await refreshBoard();
     }
   });
   menu.querySelector('[data-action="right"]').addEventListener("click", async () => {
-    closeMenu();
+    columnMenu.close();
     if (index < statuses.length - 1) {
       const ids = statuses.map((s) => s.id);
       [ids[index], ids[index + 1]] = [ids[index + 1], ids[index]];
       await tm.reorderStatuses(ids);
-      await loadLists();
-      await loadTasks();
+      await refreshBoard();
     }
   });
   menu.querySelector('[data-action="delete"]').addEventListener("click", async () => {
-    closeMenu();
+    columnMenu.close();
     await tm.deleteStatus(status.id);
-    await loadLists();
-    await loadTasks();
+    await refreshBoard();
   });
   kebabWrap.append(kebabBtn, menu);
   header.appendChild(kebabWrap);
@@ -462,8 +451,7 @@ function renderAddColumn() {
     if (!name) return;
     await tm.createStatus({ name, color: colorInput.value, sort_order: statuses.length });
     nameInput.value = "";
-    await loadLists();
-    await loadTasks();
+    await refreshBoard();
   });
   col.appendChild(form);
   return col;
@@ -479,8 +467,7 @@ function startRenameStatus(nameEl, status) {
     const value = input.value.trim();
     if (value && value !== status.name) {
       await tm.updateStatus(status.id, { name: value });
-      await loadLists();
-      await loadTasks();
+      await refreshBoard();
     } else {
       input.replaceWith(nameEl); // unchanged/empty — restore without a full re-render
     }

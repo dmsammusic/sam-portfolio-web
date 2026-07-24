@@ -1,4 +1,5 @@
 import { supabase } from "./supabase-client.js";
+import { createDismissibleMenu } from "./dismissible-menu.js";
 
 // Shared by todo.js and insights.js so row behavior (checkbox, kebab menu,
 // inline edit, delete, subtasks) can't drift between the two pages.
@@ -51,30 +52,15 @@ export function renderTodoRow(todo, subtasks, { belongsInView }) {
     <button type="button" data-action="delete" class="w-full text-left px-3 py-1.5 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800">Delete</button>
   `;
 
-  function onDocClick(e) {
-    if (!kebabWrap.contains(e.target)) closeMenu();
-  }
-
-  function closeMenu() {
-    menu.classList.add("hidden");
-    document.removeEventListener("click", onDocClick);
-  }
-
-  kebabBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const wasHidden = menu.classList.contains("hidden");
-    menu.classList.toggle("hidden");
-    if (wasHidden) document.addEventListener("click", onDocClick);
-    else document.removeEventListener("click", onDocClick);
-  });
+  const kebabMenu = createDismissibleMenu(kebabWrap, kebabBtn, menu);
 
   menu.querySelector('[data-action="edit"]').addEventListener("click", () => {
-    closeMenu();
+    kebabMenu.close();
     startEdit();
   });
 
   menu.querySelector('[data-action="delete"]').addEventListener("click", async () => {
-    closeMenu();
+    kebabMenu.close();
     await supabase.from("todos").delete().eq("id", todo.id);
     wrapper.remove();
   });

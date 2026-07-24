@@ -1,5 +1,6 @@
 import { supabase } from "./supabase-client.js";
 import { getProfile } from "./profile.js";
+import { createDismissibleMenu } from "./dismissible-menu.js";
 
 const navUser = document.getElementById("nav-user");
 const navProfileBtn = document.getElementById("nav-profile-btn");
@@ -10,22 +11,7 @@ const navLogout = document.getElementById("nav-logout");
 
 navLogout?.addEventListener("click", () => supabase.auth.signOut());
 
-function closeProfileMenu() {
-  navProfileMenu?.classList.add("hidden");
-  document.removeEventListener("click", onDocClick);
-}
-
-function onDocClick(e) {
-  if (!navUser?.contains(e.target)) closeProfileMenu();
-}
-
-navProfileBtn?.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const wasHidden = navProfileMenu.classList.contains("hidden");
-  navProfileMenu.classList.toggle("hidden");
-  if (wasHidden) document.addEventListener("click", onDocClick);
-  else document.removeEventListener("click", onDocClick);
-});
+const profileMenu = createDismissibleMenu(navUser, navProfileBtn, navProfileMenu);
 
 const toast = document.getElementById("onboarding-toast");
 const toastOpen = document.getElementById("onboarding-toast-open");
@@ -50,7 +36,7 @@ function showNavUser(profile) {
 
 function hideNavUser() {
   navUser.classList.add("hidden");
-  closeProfileMenu();
+  profileMenu.close();
 }
 
 function openModal() {

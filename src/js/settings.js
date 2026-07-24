@@ -10,26 +10,21 @@ const formatTabs = document.querySelectorAll(".format-tab");
 
 const selected = { date_format: "us", time_format: "12h" };
 
-formatTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const field = tab.dataset.field;
-    document.querySelectorAll(`.format-tab[data-field="${field}"]`).forEach((t) => t.setAttribute("data-active", "false"));
-    tab.setAttribute("data-active", "true");
-    selected[field] = tab.dataset.value;
+function selectTab(field, value) {
+  document.querySelectorAll(`.format-tab[data-field="${field}"]`).forEach((t) => {
+    t.setAttribute("data-active", String(t.dataset.value === value));
   });
+  selected[field] = value;
+}
+
+formatTabs.forEach((tab) => {
+  tab.addEventListener("click", () => selectTab(tab.dataset.field, tab.dataset.value));
 });
 
 function showMessage(text, type = "error") {
   message.textContent = text;
   message.className = `text-sm ${type === "error" ? "text-red-500" : "text-green-600 dark:text-green-400"}`;
   message.classList.remove("hidden");
-}
-
-function selectTab(field, value) {
-  document.querySelectorAll(`.format-tab[data-field="${field}"]`).forEach((t) => {
-    t.setAttribute("data-active", String(t.dataset.value === value));
-  });
-  selected[field] = value;
 }
 
 form.addEventListener("submit", async (e) => {
